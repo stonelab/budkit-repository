@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tpl:layout xmlns:tpl="http://budkit.org/tpl">
-    <div class="col-md-12">
+    <div class="col-md-12 prn">
         <div class="stream-grid">
             <div class="stream-line"/>
             <ul class="stream">
                 <tpl:loop foreach="categories.items">
-                    <li class="stream-item col-md-3">
+                    <li class="stream-item col-md-3 pln">
                         <span class="stream-label"></span>
 
                         <div class="stream-line"/>

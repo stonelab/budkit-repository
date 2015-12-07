@@ -99,7 +99,7 @@ class Provider implements Service
 
         if ($menuUser->isAuthenticated()) {
             array_push($menuItems, array(
-                    "menu_title" => "Directory",
+                    "menu_title" => "Repository",
                     "menu_url" => "/admin/repository",
                 )
             );
