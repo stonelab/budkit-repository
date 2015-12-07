@@ -55,7 +55,7 @@ class Provider implements Service
             });
         });
 
-        Route::attach("/repository", "App\\Directory\\Controller\\Listing", function ($route) {
+        Route::attach("/repository", Controller\Listing::class, function ($route) {
             $route->setTokens(array(
                 'id' => '(\d+[a-zA-Z0-9]{9})?', //category id
                 'item' => '(\d+[a-zA-Z0-9]{9})?', //category id

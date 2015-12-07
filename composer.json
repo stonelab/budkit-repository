@@ -14,6 +14,6 @@
         "budkit/cms": "*"
     },
     "autoload": {
-        "psr-4": { "Budkit\\Frontend\\": "src/"}
+        "psr-4": { "Budkit\\Repository\\": "src/"}
     }
 }
