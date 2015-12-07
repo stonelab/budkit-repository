@@ -1,0 +1,19 @@
+{
+    "name": "budkit/repository",
+    "description": "A Budkit CMS app for handling custom data",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Livingstone Fultang",
+            "email": "livingstonefultang@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "budkit/cms": "*"
+    },
+    "autoload": {
+        "psr-4": { "Budkit\\Frontend\\": "src/"}
+    }
+}
