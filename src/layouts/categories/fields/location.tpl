@@ -2,7 +2,7 @@
 <tpl:layout xmlns:tpl="http://budkit.org/tpl">
     <div tpl:class="panel panel-field hide${type}">
         <div class="panel-heading" role="tab">
-            <h4 class="panel-title">
+            <h4 class="panel-title">                 <input type="hidden" tpl:name="category_form[${order}][uri]" tpl:value="${uri}" />
                <span class="field-count"><input type="text" tpl:value="${order}" data-toggle="field-count" readonly="readonly" tpl:name="category_form[${order}][order]" /></span>
                 <span role="button"><tpl:data value="question" default="Location" /></span>
             <span class="pins pull-right">
@@ -19,7 +19,7 @@
             <div class="panel-body">
                 <div class="form-group row">
                     <div class="col-md-8 prn">
-                        <input type="text" class="form-control" tpl:name="category_form[${order}][location][question]"  placeholder="Question *" tpl:value="question" />
+                        <input type="text" class="form-control" tpl:name="category_form[${order}][location][question]"  placeholder="Question *" tpl:value="${question}" />
                     </div>
                     <div class="col-md-4">
                         <tpl:select class="form-control native" tpl:name="category_form[${order}][location][required]" selected="required">

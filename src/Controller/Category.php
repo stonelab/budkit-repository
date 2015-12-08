@@ -212,12 +212,30 @@ class Category extends CMSAdmin
         //update the order;
         $form = (array) $input->getArray("category_form", "", "post");
 
+        //print_R($form);
+
+       // die;
+
         //Store fields as per order;
         foreach( $form as $k=>$field){
 
             $end = end($field);
             $end["type"] = key($field);
             $end['order'] = $field['order'];
+
+            //Field unique identifiers  are important for tracking data;
+            $end["uri"] = empty($field["uri"]) ? getRandomString(10) : $field["uri"];
+
+            //no empty choices;
+            $choiceTypes = ["picturechoice","multichoice"];
+
+            if(in_array($end["type"], $choiceTypes)){
+                foreach($end["choice"] as $k=>$choice){
+                    if(empty($choice)){
+                        unset($end["choice"][$k]);
+                    }
+                }
+            }
 
             $form[$field['order']] = $end;
 

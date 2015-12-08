@@ -14,7 +14,7 @@
         </div>
         <div class="container-block">
             <div class="container-aside">
-                <div class="container-heading">Fields</div>
+                <div class="container-heading">Add Fields</div>
                 <div class="container-block">
                     <tpl:import name="categories/fields.tpl"/>
                 </div>
@@ -23,21 +23,26 @@
             <form tpl:action="/admin/repository/category/${object_uri}/edit" method="post" class="container-main clearfix">
                 <div class="container-block no-scroll">
                     <div class="container-pside background-white" role="pside">
-                        <div class="container-heading">Drag to form</div>
+                        <div class="container-heading">
+                            Data Form
+                        </div>
                         <div class="container-block">
                             <div>
                                 <tpl:import name="alerts"/>
                             </div>
-                            <div class="container-form">
+
                                 <tpl:import name="categories/form" />
-                            </div>
+
                         </div>
                     </div>
                     <div class="container-main">
                         <div class="container-block no-scroll">
                             <div class="container-main">
                                 <div class="container-heading">
-                                    <span>Category form</span>
+                                    <span>Data Fields</span>
+                                    <tpl:condition on="object_uri" test="empty" is="0">
+                                        <a tpl:href="/repository/${object_uri}/add" class="pull-right">Preview form</a>
+                                    </tpl:condition>
                                 </div>
                                 <div class="container-block background-white no-scroll">
                                     <div class="container-block custom-fields-holder">
@@ -55,7 +60,7 @@
                                             </tpl:loop>
 
                                             <div class="placeholder empty">
-                                                Drag custom fields here
+                                                Drag data fields here
                                             </div>
 
                                         </div>

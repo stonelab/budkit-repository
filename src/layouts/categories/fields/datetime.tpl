@@ -2,7 +2,7 @@
 <tpl:layout xmlns:tpl="http://budkit.org/tpl">
     <div tpl:class="panel panel-field hide${type}">
         <div class="panel-heading" role="tab">
-            <h4 class="panel-title">
+            <h4 class="panel-title">                 <input type="hidden" tpl:name="category_form[${order}][uri]" tpl:value="${uri}" />                 <input type="hidden" tpl:name="category_form[${order}][uri]" tpl:value="${uri}" />
                <span class="field-count"><input type="text" tpl:value="${order}" data-toggle="field-count" readonly="readonly" tpl:name="category_form[${order}][order]" /></span>
                 <span role="button"><tpl:data value="question" default="Date &amp; Time" /></span>
                 <span class="pins pull-right">
@@ -10,6 +10,7 @@
                         Remove
                     </a>
                 </span>
+
                 <tpl:condition test="equals" on="type" is="datetime">
                     <input type="hidden" tpl:name="category_form[${order}][existing]" value="1" />
                 </tpl:condition>

@@ -37,7 +37,7 @@ class Listing extends Controller {
         //$this->view->addToBlock("navbar-button", 'import://repository/navbar-button');
 
         //Tell the view where to find additional layouts
-        $this->view->addToBlock("main", 'import://repository/listings');
+        $this->view->addToBlock("main", 'import://directory/listings');
         $this->view->setLayout('directory/dashboard');
 
     }
