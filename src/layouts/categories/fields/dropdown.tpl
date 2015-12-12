@@ -29,6 +29,26 @@
                         </tpl:select>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-md-4 prn">
+                        <tpl:select class="form-control native" tpl:name="category_form[${order}][dropdown][multiselect]" selected="multiselect">
+                            <option value="0">Single choice</option>
+                            <option value="1" selected="selected">Multiple choices</option>
+                        </tpl:select>
+                    </div>
+                    <div class="col-md-4 prn">
+                        <tpl:select class="form-control native" tpl:name="category_form[${order}][dropdown][native]" selected="native">
+                            <option value="0" selected="selected">Styled</option>
+                            <option value="1">Native</option>
+                        </tpl:select>
+                    </div>
+                    <div class="col-md-4">
+                        <tpl:select class="form-control native" tpl:name="category_form[${order}][dropdown][searchable]" selected="searchable">
+                            <option value="1">Show search</option>
+                            <option value="0">Hide search</option>
+                        </tpl:select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <textarea class="form-control" tpl:name="category_form[${order}][dropdown][choices]"  placeholder="Add one choice per line" rows="4"><tpl:data value="choices" /></textarea>
                 </div>

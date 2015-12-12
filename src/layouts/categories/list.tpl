@@ -17,7 +17,7 @@
                                 <h3 class="subject heading">
                                     <a tpl:href="/repository/category/${object_uri}" class="subject"><tpl:data value="media_title" /></a>
                                 </h3>
-                                <div class="summary"><tpl:data value="media_summary" /></div>
+                                <div class="summary"><tpl:data value="media_summary" parsedown="true" markup="true" /></div>
                                 <div class="body clearfix"></div>
                                 <div class="actions clearfix">
                                     <ul class="nav pull-left">

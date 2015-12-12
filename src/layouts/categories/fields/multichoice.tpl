@@ -31,8 +31,8 @@
                 <div class="form-group row">
                     <div class="col-md-4 prn">
                         <tpl:select class="form-control native" tpl:name="category_form[${order}][multichoice][multiselect]" selected="multiselect">
-                            <option value="0">Single choice</option>
-                            <option value="1" selected="selected">Multiple choices</option>
+                            <option value="0" selected="selected">Single choice</option>
+                            <option value="1">Multiple choices</option>
                         </tpl:select>
                     </div>
                     <div class="col-md-4 prn">
@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-md-4">
                         <tpl:select class="form-control native" tpl:name="category_form[${order}][multichoice][verticallist]" selected="verticallist">
-                            <option value="1">Show all choices</option>
+                            <option value="1" selected="selected">Show all choices</option>
                             <option value="0">Display as select dropdown</option>
                         </tpl:select>
                     </div>

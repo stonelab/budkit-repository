@@ -4,8 +4,8 @@
         <div class="button-radio-group mbl">
             <tpl:loop foreach="choice">
                 <a class="col-md-3 prn active">
-                    <tpl:input type="radio" class="native" name="${type}_${uri}"
-                               checked="" value="1" data="editing.category_form_progressbar_type"/>
+                    <tpl:input type="radio" class="native" tpl:name="data_${$.type}_${$.uri}"
+                               checked="" value="1" data=""/>
                     <span><tpl:data value="$" /></span>
                 </a>
             </tpl:loop>

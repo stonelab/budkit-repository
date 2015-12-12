@@ -28,6 +28,9 @@
                         </tpl:select>
                     </div>
                 </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" tpl:name="category_form[${order}][location][placeholder]" tpl:value="${placeholder}"  placeholder="Placeholder text" />
+                </div>
                 <div class="form-field-group">
                     <textarea class="form-control" tpl:name="category_form[${order}][location][description]"  placeholder="Description" rows="4"><tpl:data value="description" /></textarea>
                 </div>

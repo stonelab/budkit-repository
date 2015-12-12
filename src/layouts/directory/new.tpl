@@ -16,12 +16,12 @@
                 <div class="container" data-form-step="0">
                     <div class="row text-center mb">
                         <h1 class="page-header bottom-border"><tpl:data value="category.media_title" default="Add New Listing" />
-                            <p class="small help-block"><tpl:data value="category.media_summary" default="Please select a category below" /> </p>
+                            <div class="small help-block"><tpl:data value="category.media_summary" default="Please select a category below" parsedown="true" markup="true" /> </div>
                         </h1>
                     </div>
                 </div>
                 <div class="container prl pbl pll">
-                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" action="?" style="margin-left: -40px">
+                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/repository/${object_uri}/put" style="margin-left: -40px">
                         <div class="stream-list">
                             <div class="stream-line"/>
                             <ul class="stream">
@@ -53,10 +53,10 @@
 
                                                 <span class="btn btn-lg btn-circle step-number"><tpl:data value="order" /></span>
 
-                                                <h3 class="subject heading ptm"><tpl:data value="question"/></h3>
+                                                <h3 class="subject heading"><tpl:data value="question"/></h3>
 
                                                 <div class="body clearfix mtl mbl">
-                                                    <div class="content clearfix ptm">
+                                                    <div class="content clearfix">
                                                         <tpl:import tpl:name="categories/form/${type}.tpl" />
                                                     </div>
                                                 </div>
@@ -68,7 +68,7 @@
                                         <tpl:condition on="type" test="equals" is="statement">
                                             <div class="item has-step-number form-step-holder">
                                                 <span class="btn btn-lg btn-circle step-number"><tpl:data value="order" /></span>
-                                                <h4 class="subject heading border-bottom ptm">
+                                                <h4 class="subject heading border-bottom">
                                                     <em><tpl:data value="text" parsedown="true" markup="true" /></em>
                                                 </h4>
                                             </div>
@@ -83,7 +83,7 @@
                                             <tpl:data value="category.category_thankyou" parsedown="true" markup="true" />
                                         </div>
 
-                                        <button type="button" class="mtl btn btn-primary btn-lg">Review &amp; Submit</button>
+                                        <button type="submit" class="mtl btn btn-primary btn-lg">Review &amp; Submit</button>
                                     </div>
 
                                 </li>
@@ -105,7 +105,6 @@
                             }
                         });
                         require(['budkit.map', 'budkit.form'], function() {
-
                             $("#budkit-form").bkform({
                                 form_holder : "#budkit-form-holder",
                                 form_navigator: "#budkit-form-navigator"

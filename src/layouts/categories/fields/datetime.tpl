@@ -34,10 +34,10 @@
                         <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][format]"  placeholder="Format *" tpl:value="${format}" />
                     </div>
                     <div class="col-md-4 prn">
-                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][range][start]"  placeholder="Range Start" tpl:value="${range.start}" />
+                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][range][start]"  placeholder="Range Start (YYYY-MM-DD)" tpl:value="${range.start}" />
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][range][stop]"  placeholder="Range Stop" tpl:value="${range.stop}" />
+                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][range][stop]"  placeholder="Range Stop (YYYY-MM-DD)" tpl:value="${range.stop}" />
                     </div>
                 </div>
                 <div class="form-field-group">
