@@ -58,14 +58,17 @@ class Provider implements Service
         Route::attach("/repository", Controller\Listing::class, function ($route) {
             $route->setTokens(array(
                 'id' => '(\d+[a-zA-Z0-9]{9})?', //category id
-                'item' => '(\d+[a-zA-Z0-9]{9})?', //category id
+                'item' => '(\d+[a-zA-Z0-9]{9})?', //item id
                 'format' => '(\.[^/]+)?'
             ));
             //subroutes
-            $route->add('{/item}{format}', 'index'); //show a particular listing
+            $route->add('{/item}{format}', 'read'); //show a particular listing
             $route->add('{/item}/view{format}', "view");
             $route->add('{/item}/edit{format}', "edit");
             $route->add('{/id}/add{format}', "add");
+
+            //storing an item in the repository;
+            $route->addPost('/{id}/put{format}', 'create');
 
             $route->attach('/category', Controller\Category::class, function ($route) {
                 //$route->setAction(Controller\Admin\Settings\Permissions::class);

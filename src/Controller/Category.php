@@ -32,7 +32,28 @@ class Category extends CMSAdmin
     public function read($uri, $format = 'html')
     {
 
-        echo "Reading Category";
+        //echo "Browsing in {$format} format";
+
+        //echo "Searching... directory";
+        //print_r( $this->application->config );
+        $this->view->setData("title", "Listings");
+        //$this->view->setData("page", ["body"=>["class"=>"container-block"]]);
+
+        $this->view->addData("action", ["title"=>"Add Listing","link"=>"/repository/add", "class"=>"btn-primary"]);
+
+        //add the google map script
+        //$this->view->addData("scripts",["src"=>"//maps.googleapis.com/maps/api/js?key=AIzaSyBZrzwMucdDb547ZrUkWrhkIChoNJfAC88&amp;libraries=places"]);
+
+        //$this->config->get("setup.database.host");
+        //$this->config->get("content.posts.list-length");
+
+        //$this->view->addToBlock("navbar-button", 'import://repository/navbar-button');
+
+        //Tell the view where to find additional layouts
+        $this->view->addToBlock("main", 'import://directory/listings');
+        $this->view->setLayout('directory/dashboard');
+
+
     }
 
     public function edit($uri, $format = 'html')
@@ -195,6 +216,7 @@ class Category extends CMSAdmin
     }
 
 
+
     private function bindFormData(Entity $category)
     {
 
@@ -212,9 +234,6 @@ class Category extends CMSAdmin
         //update the order;
         $form = (array) $input->getArray("category_form", "", "post");
 
-        //print_R($form);
-
-       // die;
 
         //Store fields as per order;
         foreach( $form as $k=>$field){
@@ -230,11 +249,16 @@ class Category extends CMSAdmin
             $choiceTypes = ["picturechoice","multichoice"];
 
             if(in_array($end["type"], $choiceTypes)){
-                foreach($end["choice"] as $k=>$choice){
+
+                $choices = $end["choice"];
+
+                foreach( (array)$choices as $c=>$choice){
                     if(empty($choice)){
-                        unset($end["choice"][$k]);
+                        unset($choices[$c]);
                     }
                 }
+
+                $end["choice"] = $choices;
             }
 
             $form[$field['order']] = $end;
@@ -244,6 +268,7 @@ class Category extends CMSAdmin
                 unset($form[$k]);
             }
         }
+
 
         ksort($form);
 
