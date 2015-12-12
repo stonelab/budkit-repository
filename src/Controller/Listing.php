@@ -2,13 +2,13 @@
 
 namespace Budkit\Repository\Controller;
 
+use Budkit\Cms\Controller\Post;
 use Budkit\Repository\Provider;
 use Budkit\Repository\Model;
-use Budkit\Cms\Helper\Controller;
 use Budkit\Cms\Helper\Menu;
 use Budkit\Dependency\Container as Application;
 
-class Listing extends Controller {
+class Listing extends Post {
 
     public function __construct(Application $application, Menu $menu) {
 
@@ -18,38 +18,6 @@ class Listing extends Controller {
 
     }
 
-    public function index($format = 'html') {
-        //echo "Browsing in {$format} format";
-
-        //echo "Searching... directory";
-        //print_r( $this->application->config );
-        $this->view->setData("title", "Listings");
-        //$this->view->setData("page", ["body"=>["class"=>"container-block"]]);
-
-        $this->view->addData("action", ["title"=>"Add Listing","link"=>"/repository/add", "class"=>"btn-primary"]);
-
-        //add the google map script
-        //$this->view->addData("scripts",["src"=>"//maps.googleapis.com/maps/api/js?key=AIzaSyBZrzwMucdDb547ZrUkWrhkIChoNJfAC88&amp;libraries=places"]);
-
-        //$this->config->get("setup.database.host");
-        //$this->config->get("content.posts.list-length");
-
-        //$this->view->addToBlock("navbar-button", 'import://repository/navbar-button');
-
-        //Tell the view where to find additional layouts
-        $this->view->addToBlock("main", 'import://directory/listings');
-        $this->view->setLayout('directory/dashboard');
-
-    }
-
-
-    public function read($id, $format = 'html') {
-        echo "Reading {$id} in {$format} format";
-    }
-
-    public function edit($id = 'new', $format = 'html') {
-        echo "Editing {$id} in {$format} format";
-    }
 
     public function add($uri, $format = 'html') {
 
@@ -87,23 +55,47 @@ class Listing extends Controller {
         $this->view->setLayout('directory/new');
     }
 
-    public function delete() {
-        echo "Delete...";
+
+    public function create($incategory, $format = 'html') {
+
+        //1. check this uer has permission to execute /page/create
+        $this->checkPermission("execute");
+
+        //3. Any input data?
+        $input      = $this->application->input;
+        $dispatcher = $this->application->dispatcher;
+
+        if ($input->methodIs("POST")) { //because we are updating;
+
+            //2. Load the data category
+            $category = $this->application->createInstance(Model\Category::class);
+            $category = $category->loadObjectByURI($incategory);
+
+            if (empty($category->getObjectId())) {
+                throw new ErrorNotFoundException("The requested category does not exist");
+                return false;
+            }
+
+            //extend the data model based on the category form;
+            $data = $this->application->createInstance(Model\Data::class);
+
+            $data->extendPropertyModelWithFields( json_decode( $category->getPropertyValue("category_form") ,  true));
+            $data->bindPropertyDataFromForm();
+
+            //print_R($category->getPropertyValue("category_form"));
+            //print_R($data->getPropertyModel());
+
+            //print_R($input->data("post"));
+
+
+            die;
+
+
+            //bind the data to the form;
+            //$category = $this->bindFormData($category);
+        }
+
+
     }
 
-    public function create() {
-        echo "Creating...";
-    }
-
-    public function update() {
-        echo "Updating...";
-    }
-
-    public function replace() {
-        echo "Replacing...";
-    }
-
-    public function options() {
-        echo "Options...";
-    }
 }
