@@ -5,25 +5,25 @@ namespace Budkit\Repository\Model;
 
 use Budkit\Cms\Model\Media\Collection;
 use Budkit\Datastore\Database;
+use Budkit\Cms\Model\Media\Content;
 use Budkit\Datastore\Model\Entity;
 use Budkit\Dependency\Container;
 use Budkit\Cms\Model\User;
 
-class Data extends Entity
+class Data extends Content
 {
 
     public function __construct(Database $database, Collection $collection, Container $application, User $user)
     {
-        parent::__construct($database, $application);
+        parent::__construct($database, $collection, $application, $user);
 
         $this->collection   = $collection;
         $this->input        = $application->input;
         $this->user         = $user->getCurrentUser();
 
         //"label"=>"","datatype"=>"","charsize"=>"" , "default"=>"", "index"=>TRUE, "allowempty"=>FALSE
-        $this->definePropertyModel(array(
+        $this->extendPropertyModel(array(
             "data_category" => array("Category", "varchar", 50),
-            "data_owner" => array("Created by", "varchar", 50),
         ), "media");
 
         $this->defineValueGroup("media");
@@ -48,32 +48,39 @@ class Data extends Entity
         $this->extendPropertyModel( $properties , "media");
     }
 
-    public function bindPropertyDataFromForm()
+    public function bindPropertyDataFromForm(Entity $repository, array $form = [])
     {
         $inputModel = $this->getPropertyModel();
         $input = $this->input;
 
-        print_R($inputModel);
-
-        // print_R($_POST);
         foreach ($inputModel as $property => $definition):
-            $value = $input->getString($property, "", "post");
-            echo $value;
+
+            if(isset($_POST[$property]) && is_array($_POST[$property])){
+                $value = json_encode( $input->getArray($property, [], "post"));
+            }else{
+                $value = $input->getString($property, "", "post");
+            }
+
             if (!empty($value)):
-                $this->setPropertyValue($property, $value);
+                $repository->setPropertyValue($property, $value);
             endif;
         endforeach;
 
-        print_R($this->getPropertyData());
 
-        return $this;
+        $repository->setPropertyValue("media_owner", $this->user->getPropertyValue("user_name_id"));
+
+
+        print_r($repository->getPropertyData());
+
+
+        return $repository;
     }
 
     /**
      * Adds a new media object to the database
      * @return boolean Returns true on save, or false on failure
      */
-    public function store($category, $objectURI = null)
+    public function save($category, $objectURI = null)
     {
         //load the
         //@TODO determine the user has permission to post or store this object;

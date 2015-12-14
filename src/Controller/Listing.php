@@ -78,12 +78,13 @@ class Listing extends Post {
 
             //extend the data model based on the category form;
             $data = $this->application->createInstance(Model\Data::class);
+            $form = json_decode( $category->getPropertyValue("category_form") ,  true);
 
-            $data->extendPropertyModelWithFields( json_decode( $category->getPropertyValue("category_form") ,  true));
-            $data->bindPropertyDataFromForm();
+            $data->extendPropertyModelWithFields( $form );
+            $data->bindPropertyDataFromForm( $data , $form );
 
             //print_R($category->getPropertyValue("category_form"));
-            //print_R($data->getPropertyModel());
+            //print_R($data->getPropertyData());
 
             //print_R($input->data("post"));
 
