@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="container prl pbl pll">
-                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/repository/${object_uri}/put" style="margin-left: -40px">
+                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/repository/${object_uri}/put" style="margin-left: -40px" data-enable-shim="true">
                         <div class="stream-list">
                             <div class="stream-line"/>
                             <ul class="stream">
