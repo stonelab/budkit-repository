@@ -4,8 +4,8 @@ namespace Budkit\Repository\Controller;
 
 use Budkit\Repository\Provider;
 use Budkit\Repository\Model;
-use Budkit\Cms\Controller\Admin as CMSAdmin;
 use Budkit\Cms\Helper\Menu;
+use Budkit\Cms\Controller\Admin as CMSAdmin;
 use Budkit\Dependency\Container as Application;
 
 class Admin extends CMSAdmin {
@@ -14,6 +14,7 @@ class Admin extends CMSAdmin {
 
         parent::__construct($application, $menu);
 
+        //
         $this->view->appendLayoutSearchPath( Provider::getPackageDir()."layouts/");
 
     }
@@ -32,7 +33,6 @@ class Admin extends CMSAdmin {
 
         //$page = $page->defineValueGroup("page");
         $categories = $category->getAllMedia("category");
-
         $this->view->setData("categories", $categories);
 
         $pagination = $category->getPagination();
