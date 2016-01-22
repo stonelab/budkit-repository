@@ -33,14 +33,18 @@
                                         <div class="stream-intro">
                                             <tpl:data value="category.category_welcome" />
                                         </div>
-                                       <div class="form-navigation" id="budkit-form-navigator">
-                                           <ul>
-                                               <li class="current start" data-target-step="0"><a><i class="ionicon"></i></a></li>
-                                               <tpl:loop foreach="category.category_form">
+
+                                        <div class="btn-group mtl ptl">
+                                            <button type="button" class="btn btn-sm btn-default">Next</button>
+                                        </div>
+                                        <div class="form-navigation" id="budkit-form-navigator">
+                                            <ul>
+                                                <li class="current start" data-target-step="0"><a><i class="ionicon"></i></a></li>
+                                                <tpl:loop foreach="category.category_form">
                                                     <li tpl:data-target-step="${order}"><a><i class="ionicon"></i></a></li>
-                                               </tpl:loop>
-                                           </ul>
-                                       </div>
+                                                </tpl:loop>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </li>
 
@@ -48,22 +52,28 @@
                                     <li class="stream-item form-step" tpl:data-form-step="${order}">
                                         <div class="stream-line"/>
                                         <div>
-                                        <tpl:condition on="type" test="not" is="statement">
-                                        <div class="item has-step-number form-step-holder">
+                                            <tpl:condition on="type" test="not" is="statement">
+                                                <div class="item has-step-number form-step-holder">
 
-                                                <span class="btn btn-lg btn-circle step-number"><tpl:data value="order" /></span>
+                                                    <span class="btn btn-lg btn-circle step-number"><tpl:data value="order" /></span>
 
-                                                <h3 class="subject heading"><tpl:data value="question"/></h3>
+                                                    <h3 class="subject heading"><tpl:data value="question"/></h3>
 
-                                                <div class="body clearfix mtl mbl">
-                                                    <div class="content clearfix">
-                                                        <tpl:import tpl:name="categories/form/${type}.tpl" />
+                                                    <div class="summary"><tpl:data value="description" parsedown="true" markup="true" /></div>
+                                                    
+                                                    <div class="body clearfix mtl mbl">
+                                                        <div class="content clearfix">
+                                                            <tpl:import tpl:name="categories/form/${type}.tpl" />
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="btn-group mtl">
+                                                        <button type="button" class="btn btn-sm btn-default mrs">Next</button>
+                                                        <button type="button" class="btn btn-sm btn-link">Back</button>
                                                     </div>
                                                 </div>
-                                                <div class="summary"><tpl:data value="description" parsedown="true" markup="true" /></div>
-
-                                        </div>
-                                        </tpl:condition>
+                                            </tpl:condition>
                                         </div>
                                         <tpl:condition on="type" test="equals" is="statement">
                                             <div class="item has-step-number form-step-holder">

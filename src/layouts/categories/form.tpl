@@ -3,13 +3,19 @@
     <div class="container-form">
         <div class="category">
             <div class="form-group">
-                <label>Title</label>
+                <label>Name</label>
                 <input type="text" class="form-control" name="media_title"
-                       placeholder="Category Title" tpl:value="${editing.media_title}" />
+                       placeholder="Category name" tpl:value="${editing.category_name}" />
                 <span class="help-block">One word titles work best</span>
             </div>
             <div class="form-group">
-                <label>Description</label>
+                <label>Form title</label>
+                <input type="text" class="form-control" name="media_title"
+                       placeholder="Category form title" tpl:value="${editing.media_title}" />
+                <span class="help-block">One word titles work best</span>
+            </div>
+            <div class="form-group">
+                <label>Form Description</label>
                  <textarea class="form-control" name="media_summary"
                            placeholder="Field description" rows="4"><tpl:data value="editing.media_summary" /></textarea>
                 <span class="help-block">This description is displayed on the first page of your data aquisition form</span>

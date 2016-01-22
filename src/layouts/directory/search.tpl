@@ -6,9 +6,7 @@
                 <div class="col-md-8 prn">
                     <div class="form-group">
                         <label for="location">Location</label>
-
                         <input type="text" class="form-control places-search" id="location" placeholder="Enter Location"/>
-
                     </div>
                 </div>
                 <!--/.col-md-6-->

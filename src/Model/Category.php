@@ -24,6 +24,7 @@ class Category extends Content
 
         $this->extendPropertyModel(
             array(
+                "category_name" => array("Category Name", "mediumtext", 50),
                 "category_icon" => array("Category icon", "mediumtext", 50),
                 "category_welcome" => array("Category Welcome Message", "mediumtext", 1000),
                 "category_thankyou" => array("Category Thank you Message", "mediumtext", 1000),
