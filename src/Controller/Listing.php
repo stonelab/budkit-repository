@@ -52,7 +52,7 @@ class Listing extends Post {
         }
         $this->view->setData("csrftoken", $this->application->session->getCSRFToken());
 
-        $this->view->setLayout('directory/new');
+        $this->view->setLayout('directory/form');
     }
 
 

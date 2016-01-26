@@ -4,7 +4,7 @@
         <div class="category">
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control" name="media_title"
+                <input type="text" class="form-control" name="category_name"
                        placeholder="Category name" tpl:value="${editing.category_name}" />
                 <span class="help-block">One word titles work best</span>
             </div>

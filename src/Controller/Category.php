@@ -32,11 +32,34 @@ class Category extends CMSAdmin
     public function read($uri, $format = 'html')
     {
 
-        //echo "Browsing in {$format} format";
+        //1. If ID is null, we are creating;
+        if (empty($uri) ) {
+            throw new ErrorNotFoundException("Cannot browse an undefined category");
+            return false;
+        }
+
+        //1. check this uer has permission to execute /page/create
+        //$this->checkPermission("view");
+
+        //2. load the page;
+        $category = $this->application->createInstance(Model\Category::class);
+        $category = $category->loadObjectByURI($uri);
+
+        //tell the form that we are using a proxy of the media table
+        $category->defineValueGroup("media");
+
+        print_R($category->getObjectId());
+
+        die;
+
+        if (empty($category->getObjectId()) ) {
+            throw new ErrorNotFoundException("The requested category does not exist");
+            return false;
+        }
 
         //echo "Searching... directory";
         //print_r( $this->application->config );
-        $this->view->setData("title", "Listings");
+        $this->view->setData("title", $category->getPropertyValue("Category_name"). " repository" );
         //$this->view->setData("page", ["body"=>["class"=>"container-block"]]);
 
         $this->view->addData("action", ["title"=>"Add Listing","link"=>"/repository/add", "class"=>"btn-primary"]);
@@ -50,8 +73,8 @@ class Category extends CMSAdmin
         //$this->view->addToBlock("navbar-button", 'import://repository/navbar-button');
 
         //Tell the view where to find additional layouts
-        $this->view->addToBlock("main", 'import://directory/listings');
-        $this->view->setLayout('directory/dashboard');
+        $this->view->addToBlock("main", 'import://posts/post-map');
+        $this->view->setLayout('posts/post-dashboard');
 
 
     }
@@ -89,7 +112,7 @@ class Category extends CMSAdmin
         $this->view->setData("method", "update");
         $this->view->setData("object_uri", $uri);
         $this->view->setData("csrftoken", $this->application->session->getCSRFToken());
-        $this->view->setData("title", $category->getPropertyValue("media_title"). " category" );
+        $this->view->setData("title", $category->getPropertyValue("media_title"). " form" );
         $this->view->setLayout("categories/editor");
 
     }

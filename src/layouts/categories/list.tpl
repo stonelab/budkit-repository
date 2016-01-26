@@ -14,32 +14,36 @@
                         </a>
                         <div class="item background-white">
                             <div class="stream-content">
-                                <h3 class="subject heading">
-                                    <a tpl:href="/repository/category/${object_uri}" class="subject"><tpl:data value="media_title" /></a>
+                                <h3 class="subject heading mbn">
+                                    <a tpl:href="/repository/category/${object_uri}" class="subject"><tpl:data value="category_name" /></a>
+
+                                    <div class="actions btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle btn-rounded" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="ionicons ion-gear-b"/>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li>
+                                                <a tpl:href="/repository/${object_uri}/add" class="edit">
+                                                    <span>Form</span>
+                                                </a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a tpl:href="/admin/repository/category/${object_uri}/edit" class="edit">
+                                                    <span>Edit</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a tpl:href="/admin/repository/category/${object_uri}/delete" class="delete color-alizarin">
+                                                    <span class="color-alizarin">Delete</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </h3>
-                                <div class="summary"><tpl:data value="media_summary" parsedown="true" markup="true" /></div>
-                                <div class="body clearfix"></div>
-                                <div class="actions clearfix">
-                                    <ul class="nav pull-left">
-                                        <li>
-                                            <a tpl:href="/repository/${object_uri}/add" class="edit">
-                                                <span>Form</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <ul class="nav  pull-right">
-                                        <li>
-                                            <a tpl:href="/admin/repository/category/${object_uri}/edit" class="edit">
-                                                <span>Edit</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a tpl:href="/admin/repository/category/${object_uri}/delete" class="delete color-alizarin">
-                                                <span class="color-alizarin">Delete</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+
+                                <!--<div class="summary"><tpl:data value="media_summary" parsedown="true" markup="true" /></div>
+                                <div class="body clearfix"></div>-->
                             </div>
                         </div>
                     </li>

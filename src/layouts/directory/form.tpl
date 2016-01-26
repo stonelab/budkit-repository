@@ -35,7 +35,7 @@
                                         </div>
 
                                         <div class="btn-group mtl ptl">
-                                            <button type="button" class="btn btn-sm btn-default">Next</button>
+                                            <button type="button" class="btn btn-sm btn-outline btn-secondary btn-rounded mrs">Continue</button>
                                         </div>
                                         <div class="form-navigation" id="budkit-form-navigator">
                                             <ul>
@@ -68,9 +68,16 @@
                                                     </div>
 
 
-                                                    <div class="btn-group mtl">
-                                                        <button type="button" class="btn btn-sm btn-default mrs">Next</button>
-                                                        <button type="button" class="btn btn-sm btn-link">Back</button>
+
+
+
+                                                    <div class="mtl">
+
+                                                            <button type="button" class="btn btn-sm btn-outline btn-secondary btn-rounded mrm">Continue</button>
+
+
+                                                         <button type="button" class="btn btn-sm btn-link pln">Back</button>
+
                                                     </div>
                                                 </div>
                                             </tpl:condition>
@@ -93,7 +100,7 @@
                                             <tpl:data value="category.category_thankyou" parsedown="true" markup="true" />
                                         </div>
 
-                                        <button type="submit" class="mtl btn btn-primary btn-lg">Review &amp; Submit</button>
+                                        <button type="submit" class="mtl btn btn-primary btn-outline btn-rounded">Review &amp; Submit</button>
                                     </div>
 
                                 </li>
