@@ -45,11 +45,14 @@ class Listing extends Post {
             //we need to decode the form;
             $editing["category_form"] = json_decode($editing["category_form"], true);
 
+            $this->view->setData("last_step", strval(count($editing["category_form"]) + 1) );
             $this->view->setData("category", $editing);
             $this->view->setData("method", "update");
             $this->view->setData("object_uri", $uri);
 
+
         }
+
         $this->view->setData("csrftoken", $this->application->session->getCSRFToken());
 
         $this->view->setLayout('directory/form');

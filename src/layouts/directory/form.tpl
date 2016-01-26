@@ -21,12 +21,11 @@
                     </div>
                 </div>
                 <div class="container prl pbl pll">
-                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/repository/${object_uri}/put" style="margin-left: -40px" data-enable-shim="true">
+                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/repository/${object_uri}/put"  data-enable-shim="true" data-toggle="validator">
                         <div class="stream-list">
                             <div class="stream-line"/>
                             <ul class="stream">
                                 <li class="stream-title">Start</li>
-
                                 <li class="stream-item form-step form-first-step">
                                     <div class="stream-line"/>
                                     <div class="item has-step-number">
@@ -93,7 +92,7 @@
                                     </li>
                                 </tpl:loop>
 
-                                <li class="stream-item form-step form-last-step">
+                                <li class="stream-item form-step form-last-step" tpl:data-form-step="${last_step}">
                                     <div class="stream-line"/>
                                     <div class="item has-step-number">
                                         <div class="stream-outro mbl">
