@@ -35,7 +35,7 @@
                                         </div>
 
                                         <div class="btn-group mtl ptl">
-                                            <button type="button" class="btn btn-sm btn-outline btn-secondary btn-rounded mrs">Continue</button>
+                                            <button type="button" data-target-navigate="+1" class="btn btn-sm btn-outline btn-secondary btn-rounded mrs">Continue</button>
                                         </div>
                                         <div class="form-navigation" id="budkit-form-navigator">
                                             <ul>
@@ -62,21 +62,15 @@
                                                     <div class="summary"><tpl:data value="description" parsedown="true" markup="true" /></div>
                                                     
                                                     <div class="body clearfix mtl mbl">
-                                                        <div class="content clearfix">
+                                                        <div class="content clearfix mbl">
                                                             <tpl:import tpl:name="categories/form/${type}.tpl" />
                                                         </div>
                                                     </div>
 
-
-
-
-
                                                     <div class="mtl">
 
-                                                            <button type="button" class="btn btn-sm btn-outline btn-secondary btn-rounded mrm">Continue</button>
-
-
-                                                         <button type="button" class="btn btn-sm btn-link pln">Back</button>
+                                                        <button type="button" class="btn btn-sm btn-outline btn-secondary btn-rounded mrm" data-target-navigate="+1">Continue</button>
+                                                        <button type="button" class="btn btn-sm btn-link pln" data-target-navigate="-1">Back</button>
 
                                                     </div>
                                                 </div>
@@ -88,6 +82,12 @@
                                                 <h4 class="subject heading border-bottom">
                                                     <em><tpl:data value="text" parsedown="true" markup="true" /></em>
                                                 </h4>
+                                                <div class="mtl">
+
+                                                    <button type="button" class="btn btn-sm btn-outline btn-secondary btn-rounded mrm" data-target-navigate="+1">Continue</button>
+                                                    <button type="button" class="btn btn-sm btn-link pln" data-target-navigate="-1">Back</button>
+
+                                                </div>
                                             </div>
                                         </tpl:condition>
                                     </li>
