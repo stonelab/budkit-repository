@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="container prl pbl pll">
-                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/repository/${object_uri}/put"  data-enable-shim="true" data-toggle="validator">
+                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/repository/${object_uri}/put"  data-enable-shim="true">
                         <div class="stream-list">
                             <div class="stream-line"/>
                             <ul class="stream">
@@ -62,7 +62,7 @@
                                                     
                                                     <div class="body clearfix mtl mbl">
                                                         <div class="content clearfix mbl">
-                                                            <tpl:import tpl:name="categories/form/${type}.tpl" />
+                                                            <tpl:import tpl:name="directory/form/${type}.tpl" />
                                                         </div>
                                                     </div>
 
@@ -99,7 +99,7 @@
                                             <tpl:data value="category.category_thankyou" parsedown="true" markup="true" />
                                         </div>
 
-                                        <button type="submit" class="mtl btn btn-primary btn-outline btn-rounded">Review &amp; Submit</button>
+                                        <button type="submit" class="mtl btn btn-sm btn-outline btn-secondary btn-rounded mrs">Submit</button>
                                     </div>
 
                                 </li>
