@@ -2,6 +2,7 @@
 
 namespace Budkit\Repository\Controller;
 
+use Budkit\Cms\Model\Authority;
 use Budkit\Repository\Provider;
 use Budkit\Repository\Model;
 use Budkit\Cms\Controller\Admin as CMSAdmin;
@@ -128,6 +129,13 @@ class Category extends CMSAdmin
         $this->view->setData("title", "New Category");
         $this->view->setLayout("categories/editor");
 
+        //3. Get the authorities list
+        $authorities = $this->application->createInstance( Authority::class );
+
+        //print_R($authorities);
+
+        //4. Set Properties
+        $this->view->setData("authorities", $authorities->getAuthorities());
         $this->view->setData("csrftoken", $this->application->session->getCSRFToken());
 
     }

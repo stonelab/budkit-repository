@@ -21,6 +21,35 @@
                 <span class="help-block">This description is displayed on the first page of your data aquisition form</span>
             </div>
             <div class="form-group">
+
+                <label>Can View</label>
+                <select name="category_submit_permission" class="form-control">
+                    <option value="">...</option>
+                    <tpl:loop foreach="authorities">
+                        <option tpl:value="${authority_id}">
+                            <tpl:loop limit="indent"><span class="indenter">|--</span></tpl:loop>
+                            <span><tpl:data value="authority_title" /></span>
+                        </option>
+                    </tpl:loop>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Can Submit</label>
+                <select name="category_view_permission" class="form-control">
+                    <option value="">...</option>
+                    <tpl:loop foreach="authorities">
+                        <option tpl:value="${authority_id}">
+                            <tpl:loop limit="indent"><span class="indenter">|--</span></tpl:loop>
+                            <span><tpl:data value="authority_title" /></span>
+                        </option>
+                    </tpl:loop>
+                </select>
+
+            </div>
+            <div class="form-group">
                 <label>Progress bar type</label>
 
                 <div class="button-radio-group mbl">
