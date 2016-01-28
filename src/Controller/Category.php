@@ -9,6 +9,7 @@ use Budkit\Cms\Helper\Menu;
 use Budkit\Cms\Model\User;
 use Budkit\Dependency\Container;
 use Budkit\Datastore\Model\Entity;
+use Budkit\Cms\Helper\ErrorNotFoundException;
 
 
 class Category extends CMSAdmin
@@ -23,7 +24,7 @@ class Category extends CMSAdmin
     }
 
 
-    public function index($format = 'html', $uri = "")
+    public function index($uri = 'html', $format = "")
     {
         return $this->read($uri, $format);
     }
@@ -42,15 +43,10 @@ class Category extends CMSAdmin
         //$this->checkPermission("view");
 
         //2. load the page;
+        //2. load the page;
         $category = $this->application->createInstance(Model\Category::class);
-        $category = $category->loadObjectByURI($uri);
+        $category = $category->loadObjectByURI( $uri );
 
-        //tell the form that we are using a proxy of the media table
-        $category->defineValueGroup("media");
-
-        print_R($category->getObjectId());
-
-        die;
 
         if (empty($category->getObjectId()) ) {
             throw new ErrorNotFoundException("The requested category does not exist");

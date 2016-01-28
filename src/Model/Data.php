@@ -48,7 +48,7 @@ class Data extends Content
         $this->extendPropertyModel( $properties , "media");
     }
 
-    public function bindPropertyDataFromForm(Entity $repository, array $form = [])
+    public function bindPropertyDataFromForm(Entity &$repository, array $form = [])
     {
         $inputModel = $this->getPropertyModel();
         $input = $this->input;
@@ -70,14 +70,12 @@ class Data extends Content
         $repository->setPropertyValue("media_owner", $this->user->getPropertyValue("user_name_id"));
 
 
-        print_r($repository->getPropertyData());
-
-
         return $repository;
     }
 
     /**
      * Adds a new media object to the database
+     *
      * @return boolean Returns true on save, or false on failure
      */
     public function save($category, $objectURI = null)
@@ -88,7 +86,7 @@ class Data extends Content
         $this->setPropertyValue("data_category", $category);
 
         //Determine the target
-        if (!$this->saveObject($objectURI, $this->getObjectType())) {
+        if (!$this->saveObject($objectURI, "{$category}_data")) {
             //There is a problem! the error will be in $this->getError();
             return false;
         }

@@ -8,7 +8,7 @@ use Budkit\Repository\Model;
 use Budkit\Cms\Helper\Menu;
 use Budkit\Dependency\Container as Application;
 
-class Listing extends Post {
+class Data extends Post {
 
     public function __construct(Application $application, Menu $menu) {
 
@@ -88,18 +88,28 @@ class Listing extends Post {
 
             //print_R($category->getPropertyValue("category_form"));
             //print_R($data->getPropertyData());
+            //
+            //$this->response->addAlert(t('Please provide at least a Name, Username, E-mail and Password'), "error");
 
-            //print_R($input->data("post"));
+           if(!$data->save( $incategory ) ){
+
+               $this->response->addAlert(t('You data was not saved to the repository'), "error");
+
+               throw new ErrorNotFoundException("Could not save data to the {$category->getPropertyValue("category_name")} repository");
+               return false;
+           }
 
 
-            die;
+            $this->response->addAlert(t('Your data has been saved successfully'), "success");
 
+            //@TODO trigger on Repository.onNewData event
 
             //bind the data to the form;
             //$category = $this->bindFormData($category);
         }
 
 
+        $dispatcher->returnToReferrer();
     }
 
 }
