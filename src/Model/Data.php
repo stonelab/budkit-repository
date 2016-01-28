@@ -61,6 +61,9 @@ class Data extends Content
                 $value = $input->getString($property, "", "post");
             }
 
+            //@TODO validate value based on property type!
+
+
             if (!empty($value)):
                 $repository->setPropertyValue($property, $value);
             endif;
@@ -86,7 +89,7 @@ class Data extends Content
         $this->setPropertyValue("data_category", $category);
 
         //Determine the target
-        if (!$this->saveObject($objectURI, "{$category}_data")) {
+        if (!$this->saveObject($objectURI, $category)) { //category uri, because the data object type!
             //There is a problem! the error will be in $this->getError();
             return false;
         }
