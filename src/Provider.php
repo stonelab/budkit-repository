@@ -142,7 +142,7 @@ class Provider implements Service
             $categories = $category->getAllMedia("category");
 
             $this->application->response->setParameter("categories", $categories);
-            $this->application->response->addAlert(t("Howdy :)"), "warning");
+            //$this->application->response->addAlert(t("Howdy :)"), "warning");
 
         }
 
