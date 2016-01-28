@@ -24,6 +24,10 @@ class Provider implements Service
 
     public function onRegister()
     {
+
+        //load home page vars
+        $this->application->observer->attach([$this, "onHomePageLoad"], "Page.onHomePage");
+
         //Register a few more listeners
         $this->application->observer->attach([$this, "onLoadPageTemplateDefinition"], "Layout.onLoad.page.template.definitions");
 
@@ -121,6 +125,26 @@ class Provider implements Service
         ];
 
         $event->setResult($extensions);
+
+    }
+
+    public function onHomePageLoad($event){
+
+        $data = $event->getData();
+
+        //print_r($data);
+        //Lets load some vars!
+        if($data['media_template'] == "directory-homepage"){
+
+            $category = $this->application->createInstance( Model\Category::class );
+
+            //$page = $page->defineValueGroup("page");
+            $categories = $category->getAllMedia("category");
+
+            $this->application->response->setParameter("categories", $categories);
+            $this->application->response->addAlert(t("Howdy :)"), "warning");
+
+        }
 
     }
 

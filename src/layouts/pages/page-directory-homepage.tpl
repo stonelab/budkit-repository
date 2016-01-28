@@ -83,94 +83,32 @@
                         <p>Here are three key ways in which you can help us help them</p>
                     </div>
                     <div class="row services text-center">
-                        <div class="col-xs-12 col-md-4">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="the-service">
-                                        <h1>Host</h1>
-                                    </div>
-                                    <table class="table table-striped text-center">
-                                        <tbody><tr>
-                                            <td>Host a refugee or asylum seeker</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Support refugee integration</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Promote cultural exchange</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Join a growing network of hosts</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Weekly Reports</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                                <div class="panel-footer">
-                                    <a href="/budkit-old/#" class="btn btn-primary btn-lg" role="button">Become a Host</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-md-4">
-                            <div class="panel panel-success">
 
+                        <tpl:loop foreach="categories.items">
+
+                            <div class="col-md-4">
+                            <div tpl:class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="the-service">
-                                        <h1>Facilitate</h1>
+                                        <h1><tpl:data value="category_name" /></h1>
                                     </div>
-                                    <table class="table table-striped text-center">
-                                        <tbody><tr>
-                                            <td>Represent us locally in your area</td>
-                                        </tr>
+                                    <table class="table text-center">
+                                        <tbody>
                                         <tr>
-                                            <td>Facilitate host/refugees meet-ups</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Relay information to host &amp; refugee</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Provide feedback to the team</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Weekly Reports</td>
+                                            <td><tpl:data value="media_summary" parsedown="true" markup="true" /></td>
                                         </tr>
                                         </tbody></table>
                                 </div>
                                 <div class="panel-footer">
-                                    <a href="/budkit-old/#" class="btn btn-primary btn-lg" role="button">Become a Buddy</a>
+                                    <a href="/budkit-old/#" class="btn btn-outline btn-rounded btn-secondary" role="button">
+                                        <tpl:data value="media_title" />
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-md-4">
-                            <div class="panel panel-info">
-                                <div class="panel-body">
-                                    <div class="the-service">
-                                        <h1>Donate</h1>
-                                    </div>
-                                    <table class="table table-striped text-center">
-                                        <tbody><tr>
-                                            <td>Support us financially</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Donate to other charities</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Support a host finance rent</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Help a facilitator cover costs</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Spread the word</td>
-                                        </tr>
-                                        </tbody></table>
-                                </div>
-                                <div class="panel-footer">
-                                    <a href="/budkit-old/#" class="btn btn-primary btn-lg" role="button">Donate</a>
-                                </div>
-                            </div>
-                        </div>
+
+                        </tpl:loop>
+
                     </div>
                     <hr class="featurette-divider" />
                 </div>
