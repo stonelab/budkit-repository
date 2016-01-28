@@ -56,7 +56,12 @@
 
                                                     <span class="btn btn-lg btn-circle step-number"><tpl:data value="order" /></span>
 
-                                                    <h3 class="subject heading"><tpl:data value="question"/></h3>
+                                                    <h3 class="subject heading">
+                                                        <tpl:data value="question"/>
+                                                        <tpl:condition on="required" test="equals" is="1">
+                                                            <em class="pls color-alizarin" title="required">*</em>
+                                                        </tpl:condition>
+                                                    </h3>
 
                                                     <div class="summary"><tpl:data value="description" parsedown="true" markup="true" /></div>
                                                     
