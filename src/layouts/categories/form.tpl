@@ -23,31 +23,29 @@
             <div class="form-group">
 
                 <label>Can View</label>
-                <select name="category_submit_permission" class="form-control">
+                <select name="category_view_permission" class="form-control">
                     <option value="">...</option>
                     <tpl:loop foreach="authorities">
-                        <option tpl:value="${authority_id}">
-                            <tpl:loop limit="indent"><span class="indenter">|--</span></tpl:loop>
+                        <option tpl:value="${authority_id}" tpl:selected="${if://$.editing.category_view_permission=authority_id}">
                             <span><tpl:data value="authority_title" /></span>
                         </option>
                     </tpl:loop>
                 </select>
-
+                <span class="help-block">In addition to the data owner (i.e the person submitting the form) who else on the network should be allowed to see this data once submitted?</span>
             </div>
 
             <div class="form-group">
 
                 <label>Can Submit</label>
-                <select name="category_view_permission" class="form-control">
+                <select name="category_submit_permission" class="form-control">
                     <option value="">...</option>
                     <tpl:loop foreach="authorities">
-                        <option tpl:value="${authority_id}">
-                            <tpl:loop limit="indent"><span class="indenter">|--</span></tpl:loop>
+                        <option tpl:value="${authority_id}" tpl:selected="${if://$.editing.category_submit_permission=authority_id}">
                             <span><tpl:data value="authority_title" /></span>
                         </option>
                     </tpl:loop>
                 </select>
-
+                <span class="help-block">Who can view and submit data using this form. Note that a public form will automatically require a user account to be created, and additional fields will be added to the form if there is no active user session</span>
             </div>
             <div class="form-group">
                 <label>Progress bar type</label>

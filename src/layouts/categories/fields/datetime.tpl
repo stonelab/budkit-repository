@@ -31,13 +31,16 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-4 prn">
-                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][format]"  placeholder="Format *" tpl:value="${format}" />
+                        <tpl:select class="form-control native" tpl:name="category_form[${order}][datetime][time]" selected="time">
+                            <option value="1" selected="selected">Require time</option>
+                            <option value="0">Date only</option>
+                        </tpl:select>
                     </div>
                     <div class="col-md-4 prn">
-                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][range][start]"  placeholder="Range Start (YYYY-MM-DD)" tpl:value="${range.start}" />
+                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][range][start]"  placeholder="Year from e.g. -10, 0" tpl:value="${range.start}" />
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][range][stop]"  placeholder="Range Stop (YYYY-MM-DD)" tpl:value="${range.stop}" />
+                        <input type="text" class="form-control" tpl:name="category_form[${order}][datetime][range][stop]"  placeholder="Year to e.g. +1" tpl:value="${range.stop}" />
                     </div>
                 </div>
                 <div class="form-field-group">

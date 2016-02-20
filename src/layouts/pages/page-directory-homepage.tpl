@@ -51,102 +51,158 @@
                     </div>
                 </div>
 
-                <div class="container marketing mtl">
 
-                    <div class="testimonial">
-                        <blockquote>
-                            We facilitate the housing of refugees who make it to the United Kingdom in private, shared accommodation offered by people just like you.
-                        </blockquote>
-                        <p class="author"><a href="#">Find out more...</a></p>
-                    </div>
 
-                    <hr class="featurette-divider" />
-
-                    <div class="row featurette">
-                        <div class="col-md-1"><i class="ionicons icon ion-alert mtl ion-ios-medical-outline"></i></div>
-                        <div class="col-md-5">
-                            <h2 class="featurette-heading">Help first. Politics later</h2>
-                            <p class="lead">Are you unhappy with the current narrative on the refugee crisis and the lack of government engagement with the issue? Join us in helping refugees who have made it to Britain settle in a free room in yours or a neighbours available shared flat?</p>
-
-                        </div>
-                        <div class="col-md-1"><i class="ionicons icon ion-alert mtl ion-ios-medical-outline"></i></div>
-                        <div class="col-md-5">
-                            <h2 class="featurette-heading">No Stigma or Prejudice</h2>
-                            <p class="lead">We are convinced that refugees should not be stigmatized and excluded by being housed in mass accommodations. Instead, we should offer them a warm welcome. We believe we can establish a more humane culture of welcoming refugees</p>
-
+                <section>
+                    <div class="container marketing mtl">
+                        <div class="testimonial">
+                            <blockquote>
+                                We facilitate the housing of refugees who make it to the United Kingdom in private, shared accommodation offered by people just like you.
+                            </blockquote>
+                            <p class="author"><a href="#">Find out more...</a></p>
                         </div>
                     </div>
+                </section>
+                <hr class="featurette-divider" />
+                <section>
+                    <div class="container marketing mtl">
+                        <div class="page-header marketing-title">
+                            <h1>Get Involved</h1>
+                            <p>Here are the many ways in which you can help us help them</p>
+                        </div>
+                        <div class="row services text-center">
 
-                    <hr class="featurette-divider" />
-                    <div class="page-header marketing-title">
-                        <h1>Get Involved</h1>
-                        <p>Here are three key ways in which you can help us help them</p>
-                    </div>
-                    <div class="row services text-center">
+                            <tpl:loop foreach="categories.items">
 
-                        <tpl:loop foreach="categories.items">
-
-                            <div class="col-md-4">
-                            <div tpl:class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="the-service">
-                                        <h1><tpl:data value="category_name" /></h1>
+                                <div class="col-md-4">
+                                    <div tpl:class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="the-service">
+                                                <h1><tpl:data value="category_name" /></h1>
+                                            </div>
+                                            <table class="table text-center">
+                                                <tbody>
+                                                <tr>
+                                                    <td><tpl:data value="media_summary" parsedown="true" markup="true" /></td>
+                                                </tr>
+                                                </tbody></table>
+                                        </div>
+                                        <div class="panel-footer-clear mbl">
+                                            <a tpl:href="/repository/${object_uri}/add" class="btn btn-outline btn-rounded btn-secondary" role="button">
+                                                <tpl:data value="media_title" />
+                                            </a>
+                                        </div>
                                     </div>
-                                    <table class="table text-center">
-                                        <tbody>
-                                        <tr>
-                                            <td><tpl:data value="media_summary" parsedown="true" markup="true" /></td>
-                                        </tr>
-                                        </tbody></table>
                                 </div>
-                                <div class="panel-footer">
-                                    <a tpl:href="/repository/${object_uri}/add" class="btn btn-outline btn-rounded btn-secondary" role="button">
-                                        <tpl:data value="media_title" />
-                                    </a>
+                            </tpl:loop>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="background-clouds">
+                    <div class="container marketing mtl">
+                        <div class="page-header text-center">
+                            <h1>The Team</h1>
+                            <p>Our dedicated team of volunteers</p>
+                        </div>
+                        <div class="row services text-center mbl">
+                            <tpl:loop repeat="8">
+                                <div class="col-md-3">
+                                    <div tpl:class="panel panel-default">
+                                        <div class="panel-body text-center">
+                                            <img src="/file/3GD4nE9Fd6/200x200" class="img-circle img-responsive" />
+                                            <div class="the-service">
+                                                <h4><a href="/member/@livingstonef">Livingstone Fultang</a></h4>
+                                                <i>Developer</i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </tpl:loop>
+                        </div>
+                        <p class="text-center mtl mbl pbl"><a href="#" class="btn btn-rounded btn-secondary btn-outline">More people</a></p>
+                    </div>
+                </section>
+
+                <!--<hr class="featurette-divider" />
+
+                <hr class="featurette-divider" /> -->
+
+                <section>
+                    <div class="container marketing mtl">
+                        <div class="page-header text-center">
+                            <h1>Our Philosophy</h1>
+                            <p>We strongly believe in..</p>
+                        </div>
+                        <div class="row featurette">
+                            <div class="col-md-1"><i class="ionicons icon ion-alert mtl ion-ios-medical-outline"></i></div>
+                            <div class="col-md-5">
+                                <h2 class="featurette-heading">Help first. Politics later</h2>
+                                <p class="lead">Are you unhappy with the current narrative on the refugee crisis and the lack of government engagement with the issue? Join us in helping refugees who have made it to Britain settle in a free room in yours or a neighbours available shared flat?</p>
+
+                            </div>
+                            <div class="col-md-1"><i class="ionicons icon ion-alert mtl ion-ios-medical-outline"></i></div>
+                            <div class="col-md-5">
+                                <h2 class="featurette-heading">No Stigma or Prejudice</h2>
+                                <p class="lead">We are convinced that refugees should not be stigmatized and excluded by being housed in mass accommodations. Instead, we should offer them a warm welcome. We believe we can establish a more humane culture of welcoming refugees</p>
+
                             </div>
                         </div>
+                        <div class="row featurette">
+                            <div class="col-md-1"><i class="ionicons icon ion-alert mtl ion-ios-medical-outline"></i></div>
+                            <div class="col-md-5">
+                                <h2 class="featurette-heading">Help first. Politics later</h2>
+                                <p class="lead">Are you unhappy with the current narrative on the refugee crisis and the lack of government engagement with the issue? Join us in helping refugees who have made it to Britain settle in a free room in yours or a neighbours available shared flat?</p>
 
-                        </tpl:loop>
+                            </div>
+                            <div class="col-md-1"><i class="ionicons icon ion-alert mtl ion-ios-medical-outline"></i></div>
+                            <div class="col-md-5">
+                                <h2 class="featurette-heading">No Stigma or Prejudice</h2>
+                                <p class="lead">We are convinced that refugees should not be stigmatized and excluded by being housed in mass accommodations. Instead, we should offer them a warm welcome. We believe we can establish a more humane culture of welcoming refugees</p>
 
+                            </div>
+                        </div>
                     </div>
-                    <hr class="featurette-divider" />
-                </div>
+
+                </section>
+
                 <tpl:import name="foot"/>
+
                 <script data-main="/theme/assets/js/main">
                     <![CDATA[
-                    require(['config'], function(){
-                        require(['autobahn'], function(autobahn){
-                            var connection = new autobahn.Connection({
-                                url: 'ws://0.0.0.0:8080',
-                                realm: 'pubsub',
-                                onchallenge: function(session, method, extra){
-                                    console.log("challenge session", session);
-                                    console.log("challenge method", method);
-                                    console.log("challenge extra", extra );
-                                    return "jasgwegsdfs"; //should return a token, maybe the sessionId
-                                },
-                                authmethods: ['budkit_cms']
-                            });
-                            connection.onopen = function (session) {
-
-                                //subscribe to a topic
-                                function onevent(args) {
-                                    console.log("Someone published this to 'com.example.hello': ", args[0]);
-                                }
-
-                                session.subscribe('admin.pages', onevent).then(
-                                    function (subscription) {
-                                        console.log("subscription info", subscription);
-                                    },
-                                    function (error) {
-                                        console.log("subscription error", error);
-                                    }
-                                );
-                            };
-                            connection.open();
-                        });
-                    });
+//                    require(['config'], function(){
+//                        require(['autobahn'], function(autobahn){
+//                            var connection = new autobahn.Connection({
+//                                url: 'ws://0.0.0.0:8080',
+//                                realm: 'pubsub',
+//                                onchallenge: function(session, method, extra){
+//                                    console.log("challenge session", session);
+//                                    console.log("challenge method", method);
+//                                    console.log("challenge extra", extra );
+//                                    return "jasgwegsdfs"; //should return a token, maybe the sessionId
+//                                },
+//                                authmethods: ['budkit_cms']
+//                            });
+//                            connection.onopen = function (session) {
+//
+//                                //subscribe to a topic
+//                                function onevent(args) {
+//                                    console.log("Someone published this to 'com.example.hello': ", args[0]);
+//                                }
+//
+//                                session.subscribe('admin.pages', onevent).then(
+//                                        function (subscription) {
+//                                            console.log("subscription info", subscription);
+//                                        },
+//                                        function (error) {
+//                                            console.log("subscription error", error);
+//                                        }
+//                                );
+//                            };
+//                            connection.open();
+//                        });
+//                    });
                     ]]>
                 </script>
             </div>

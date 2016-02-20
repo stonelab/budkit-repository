@@ -26,7 +26,7 @@
 
                 <form tpl:action="/admin/repository/category/${object_uri}/edit" method="post" class="container-main clearfix">
                     <div class="container-block no-scroll">
-                        <div class="container-pside background-white" role="pside">
+                        <div class="container-sside background-white" role="pside">
                             <div class="container-heading">
                                 Data Form
                             </div>

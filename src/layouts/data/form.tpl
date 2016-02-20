@@ -30,9 +30,14 @@
                                     <div class="stream-line"/>
                                     <div class="item has-step-number">
                                         <div class="stream-intro">
-                                            <tpl:data value="category.category_welcome" />
+                                            <tpl:data value="category.category_welcome" parsedown="true" markup="true" />
                                         </div>
-
+                                        <tpl:condition on="signup_warning" test="equals" is="1">
+                                            <p class="color-info mtl">To submit to this repository you will need to either have an account or create a new one.
+                                                If you already have an account please sign in before you begin. If you don't have an account, the next five questions are required in order for us to create your account.
+                                                Note that we are unable to create and maintain multiple accounts using the same email address.
+                                            </p>
+                                        </tpl:condition>
                                         <div class="btn-group mtl ptl">
                                             <button type="button" data-target-navigate="+1" class="btn btn-sm btn-outline btn-secondary btn-rounded mrs">Continue</button>
                                         </div>
@@ -67,7 +72,7 @@
                                                     
                                                     <div class="body clearfix mtl mbl">
                                                         <div class="content clearfix mbl">
-                                                            <tpl:import tpl:name="directory/form/${type}.tpl" />
+                                                            <tpl:import tpl:name="data/form/${type}.tpl" />
                                                         </div>
                                                     </div>
 
