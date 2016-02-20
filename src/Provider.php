@@ -34,6 +34,9 @@ class Provider implements Service
         //Check has permission
         $this->application->observer->attach([$this, "onLoadPostExtensions"], "Layout.load.post.extensions");
 
+        //Manage stories
+        $this->application->observer->attach([$this, "onPreparePostStory"], "Story.onPrepareStory");
+
         //Add Roues
         ////Grouping routes under a prefix;
         //
@@ -69,10 +72,13 @@ class Provider implements Service
             $route->add('{/item}{format}', 'read'); //show a particular listing
             $route->add('{/item}/view{format}', "view");
             $route->add('{/item}/edit{format}', "edit");
-            $route->add('{/id}/add{format}', "add");
+            $route->add('{/id}/add{format}', "add")->setPermissionHandler("view", "canViewAdd");
 
             //storing an item in the repository;
-            $route->addPost('/{id}/put{format}', 'create');
+            $route
+                ->addPost('/{id}/put{format}', 'create')
+                ->setRequiredPermission("execute")
+                ->setPermissionHandler("execute", "canExecuteCreate");
 
             $route->attach('/category', Controller\Category::class, function ($route) {
                 //$route->setAction(Controller\Admin\Settings\Permissions::class);
@@ -118,14 +124,36 @@ class Provider implements Service
     public function onLoadPostExtensions($event)
     {
 
-        $extensions = (array)$event->getResult();
-        $extensions[] = [
-            "title" => "New Listing",
-            "link" => "/repository/add"
-        ];
+//        $extensions = (array)$event->getResult();
+//        $extensions[] = [
+//            "title" => "New Listing",
+//            "link" => "/repository/add"
+//        ];
+//
+//        $event->setResult($extensions);
 
-        $event->setResult($extensions);
+    }
 
+
+    public function onPreparePostStory($event){
+
+        $story  = $event->getData();
+        $graph  = $event->getResult();
+
+        //print_R($story);
+
+        //if this is just a posted story;
+        if($story->getName() == "addedtorepository"){
+
+            $story->setData( $story->getTail()->getData() );
+
+            //The stream_item_type key is super important
+            //Without it the stream has no idea of knowing how to display its content
+            //and the edge is actually removed from the stream;
+            $story->addData("story_item_type", "posts/post-story");
+        }
+
+        // print_R($graph);
     }
 
     public function onHomePageLoad($event){

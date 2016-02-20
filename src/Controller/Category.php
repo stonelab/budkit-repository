@@ -40,7 +40,8 @@ class Category extends CMSAdmin
             return false;
         }
 
-        //1. check this uer has permission to execute /page/create
+        //1. Do not check view permission as this is already checked in provider
+        //You can set a custom permission checker, by add a ->setPermissionCallback to the route definition
         //$this->checkPermission("view");
 
         //2. load the page;
@@ -59,7 +60,7 @@ class Category extends CMSAdmin
         $this->view->setData("title", $category->getPropertyValue("Category_name"). " repository" );
         //$this->view->setData("page", ["body"=>["class"=>"container-block"]]);
 
-        $this->view->addData("action", ["title"=>"Add Listing","link"=>"/repository/add", "class"=>"btn-primary"]);
+        //$this->view->addData("action", ["title"=>"Add Listing","link"=>"/repository/add", "class"=>"btn-primary"]);
 
         //add the google map script
         //$this->view->addData("scripts",["src"=>"//maps.googleapis.com/maps/api/js?key=AIzaSyBZrzwMucdDb547ZrUkWrhkIChoNJfAC88&amp;libraries=places"]);
@@ -104,6 +105,14 @@ class Category extends CMSAdmin
 
         //we need to decode the form;
         $editing["category_form"] = json_decode($editing["category_form"], true);
+
+        //3. Get the authorities list
+        $authorities = $this->application->createInstance( Authority::class );
+
+        //print_R($authorities);
+
+        //4. Set Properties
+        $this->view->setData("authorities", $authorities->getAuthorities());
 
         $this->view->setData("editing", $editing);
         $this->view->setData("method", "update");
@@ -210,8 +219,6 @@ class Category extends CMSAdmin
                     //we will save the content as HTML
                     $category = $this->bindFormData($category); //binds input data;
 
-
-
                     //$category->setPropertyValue("media_published", Time::stamp())
 
                     if ($category->saveObject($category->getObjectURI(), $category->getObjectType(), $category->getObjectId())) {
@@ -252,7 +259,8 @@ class Category extends CMSAdmin
 
         // print_R($_POST);
         foreach ($inputModel as $property => $definition):
-            $value = $input->getString($property, "", "post");
+            $allowHtml = in_array($property, ['category_welcome', 'category_thankyou'])? true : false;
+            $value = $input->getString($property, "", "post" , $allowHtml);
             if (!empty($value)):
                 $category->setPropertyValue($property, $value);
             endif;

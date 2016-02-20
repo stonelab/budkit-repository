@@ -13,6 +13,7 @@ use Budkit\Cms\Model\User;
 class Data extends Content
 {
 
+
     public function __construct(Database $database, Collection $collection, Container $application, User $user)
     {
         parent::__construct($database, $collection, $application, $user);
@@ -48,13 +49,15 @@ class Data extends Content
         $this->extendPropertyModel( $properties , "media");
     }
 
-    public function bindPropertyDataFromForm(Entity &$repository, array $form = [])
+    public function bindPropertyDataFromForm(Entity &$repository, array $form = [], User $owner = null)
     {
         $inputModel = $this->getPropertyModel();
         $input = $this->input;
+        $owner = empty($owner)? $this->user : $owner;
 
         foreach ($inputModel as $property => $definition):
 
+            //This post hack, is so we can collect array data e.g from multiselect;
             if(isset($_POST[$property]) && is_array($_POST[$property])){
                 $value = json_encode( $input->getArray($property, [], "post"));
             }else{
@@ -62,15 +65,13 @@ class Data extends Content
             }
 
             //@TODO validate value based on property type!
-
-
             if (!empty($value)):
                 $repository->setPropertyValue($property, $value);
             endif;
         endforeach;
 
-
-        $repository->setPropertyValue("media_owner", $this->user->getPropertyValue("user_name_id"));
+        //Who owns this data?
+        $repository->setPropertyValue("media_owner", $owner->getPropertyValue("user_name_id") );
 
 
         return $repository;
