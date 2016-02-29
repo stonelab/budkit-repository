@@ -28,6 +28,23 @@
                         </tpl:select>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-md-4 prn">
+                        <input type="text" class="form-control" tpl:name="category_form[${order}][fileupload][types]"  placeholder="Limit upload file types" tpl:value="${types}" />
+                    </div>
+                    <div class="col-md-4">
+                        <tpl:select class="form-control native" tpl:name="category_form[${order}][fileupload][dropzone]" selected="dropzone">
+                            <option value="1" >Show as dropzone</option>
+                            <option value="0" selected="selected" >Show classic</option>
+                        </tpl:select>
+                    </div>
+                    <div class="col-md-4">
+                        <tpl:select class="form-control native" tpl:name="category_form[${order}][fileupload][multiple]" selected="multiple">
+                            <option value="0" selected="selected">Single file</option>
+                            <option value="1">Multiple files</option>
+                        </tpl:select>
+                    </div>
+                </div>
                 <div class="form-field-group">
                     <textarea class="form-control" tpl:name="category_form[${order}][fileupload][description]"  placeholder="Description" rows="4"><tpl:data value="description" /></textarea>
                 </div>

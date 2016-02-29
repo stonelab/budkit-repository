@@ -5,6 +5,7 @@ namespace Budkit\Repository;
 use Budkit\Application\Support\Service;
 use Budkit\Cms\Model\User;
 use Budkit\Dependency\Container;
+use Budkit\Repository\Model\Category;
 use Route;
 
 class Provider implements Service
@@ -43,33 +44,33 @@ class Provider implements Service
         Route::attach("/admin/repository", Controller\Admin::class, function ($route) {
             $route->setTokens(array(
                 'id' => '(\d+[a-zA-Z0-9]{9})?',
-                'format' => '(\.[^/]+)?'
+                'format' => '(\.[^/]+)?',
+                'group'=> '([a-z]+)?'
+
             ));
             //subroutes
             $route->add('{format}', 'index');
 
-            $route->attach('/category', Controller\Category::class, function ($route) {
+            $route->attach('{/id}', Controller\Category::class, function ($route) {
 
-                //$route->setAction(Controller\Admin\Settings\Permissions::class);
-                $route->addGet('{format}', 'index');
                 $route->add('{format}', 'index');
                 $route->add('/add{format}', 'add');
-                $route->add('{/id}{format}', "view");
-                $route->add('{/id}/edit{format}', "edit");
-                $route->addDelete('/{id}/delete{format}', 'delete');
-                $route->addPatch('/{id}/update{format}', 'update');
+                $route->add('/edit{format}', "edit");
+                $route->addGet('/{group}{format}', "manage");
+                $route->addDelete('/delete{format}', 'delete');
+                $route->addPatch('/update{format}', 'update');
 
             });
         });
 
-        Route::attach("/repository", Controller\Data::class, function ($route) {
+        Route::attach("/data", Controller\Data::class, function ($route) {
             $route->setTokens(array(
                 'id' => '(\d+[a-zA-Z0-9]{9})?', //category id
                 'item' => '(\d+[a-zA-Z0-9]{9})?', //item id
                 'format' => '(\.[^/]+)?'
             ));
             //subroutes
-            $route->add('{/item}{format}', 'read'); //show a particular listing
+            $route->add('{/item}{format}', 'read')->setPermissionHandler("view", "canViewDataItem"); //show a particular listing
             $route->add('{/item}/view{format}', "view");
             $route->add('{/item}/edit{format}', "edit");
             $route->add('{/id}/add{format}', "add")->setPermissionHandler("view", "canViewAdd");
@@ -80,10 +81,9 @@ class Provider implements Service
                 ->setRequiredPermission("execute")
                 ->setPermissionHandler("execute", "canExecuteCreate");
 
-            $route->attach('/category', Controller\Category::class, function ($route) {
+            $route->attach('/repository', Controller\Category::class, function ($route) {
                 //$route->setAction(Controller\Admin\Settings\Permissions::class);
-                $route->addGet('{/id}{format}', 'index');
-                $route->addGet('{/id}/view{format}', "view");
+                $route->addGet('{/id}{format}', 'index')->setPermissionHandler("view", "canViewDataCategory");
 
             });
         });
@@ -101,24 +101,30 @@ class Provider implements Service
     {
 
         $menuId = $event->getData("uid");
-        $user = $this->application->createInstance(User::class);
+        $menuItems = (array)$event->getResult();
 
         //We only process the usermenu;
         if ($menuId !== "dashboardmenu") return;
 
         //check for a user here is unnecessary as permissions are checked by Menu\Tpl
-        $menuItems = (array)$event->getResult();
-        $menuUser = $user->getCurrentUser();
-
-        if ($menuUser->isAuthenticated()) {
-            array_push($menuItems, array(
+        //$user = $this->application->createInstance( User::class );
+        //$menuUser = $user->getCurrentUser();
+        foreach ($menuItems as $id => $menuItem) {
+            if ($menuItem["menu_url"] == "/admin/settings/configuration") {
+//                array_push($menuItems, array(
+//                        "menu_title" => "Repository",
+//                        "menu_url" => "/admin/repository",
+//                    )
+//                );
+                $menuItem['children'] = array_merge($menuItem['children'], [array(
                     "menu_title" => "Repository",
                     "menu_url" => "/admin/repository",
-                )
-            );
-            $event->setResult($menuItems);
+                )]);
+                $menuItems[$id] = $menuItem;
+                break;
+            }
         }
-
+        return $event->setResult($menuItems);
     }
 
     public function onLoadPostExtensions($event)
@@ -140,17 +146,33 @@ class Provider implements Service
         $story  = $event->getData();
         $graph  = $event->getResult();
 
+        $repository = $this->application->createInstance( Category::class );
         //print_R($story);
 
         //if this is just a posted story;
         if($story->getName() == "addedtorepository"){
+
+            $object = $story->getTail()->getData();
+
+            $category = $repository->loadObjectByURI($object['data_category'], ['category_name', 'media_title'])->getPropertyData();
+
 
             $story->setData( $story->getTail()->getData() );
 
             //The stream_item_type key is super important
             //Without it the stream has no idea of knowing how to display its content
             //and the edge is actually removed from the stream;
-            $story->addData("story_item_type", "posts/post-story");
+            //story_type e.g posts/post-story
+            //story_figure = [title , description, items = [ [type, cover, caption], [type, cover, caption] ] ]
+            //story_object_prefix = [verb] e.g posted, added
+            //story_object = [prefix, type, url] e.g host
+            //story_target
+            //so the story reads, "media_owner, story_action,  story_object ([to] story-target)"
+
+            $story->addData("story_object", ['prefix'=>" added a new ", "type"=>$category['category_name'], "url"=>"/data/".$object['object_uri']] );
+            //$story->addData("story_target", ['prefix'=>" to ", "type"=>"", "url"=>""] );
+
+            $story->addData("story_type", "posts/post-story");
         }
 
         // print_R($graph);

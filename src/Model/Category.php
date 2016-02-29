@@ -132,7 +132,6 @@ class Category extends Content
 
     }
 
-
     public function getSignUpFormFields(){
         return $this->signup;
     }

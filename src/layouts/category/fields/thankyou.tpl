@@ -10,7 +10,7 @@
             <div class="panel-body">
                 <div class="form-field-group">
                     <textarea class="form-control" name="category_thankyou"
-                              placeholder="Thank you text" rows="4"><tpl:data value="editing.category_thankyou" default="Thank you for taking the time to complete this form" /></textarea>
+                              placeholder="Thank you text" rows="8"><tpl:data value="editing.category_thankyou" default="Thank you for taking the time to complete this form" /></textarea>
                 </div>
             </div>
         </div>

@@ -42,9 +42,9 @@ class Admin extends CMSAdmin {
         }
 
 
-        $this->view->addData("action", ["title"=>"Add Category","link"=>"/admin/repository/category/add", "class"=>"btn-primary"]);
+        $this->view->addData("action", ["title"=>"Add Category","link"=>"/admin/repository/add", "class"=>"btn-primary"]);
 
-        $this->view->addToBlock("main", 'import://categories/list');
+        $this->view->addToBlock("main", 'import://category/category-list');
 
     }
 

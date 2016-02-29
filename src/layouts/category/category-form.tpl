@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tpl:layout name="form" xmlns:tpl="http://budkit.org/tpl">
-    <div class="container-form">
+<tpl:layout name="category-form" xmlns:tpl="http://budkit.org/tpl">
+    <div class="container-form-2 pll prl pbl">
         <div class="category">
             <div class="form-group">
                 <label>Name</label>
@@ -81,13 +81,11 @@
                        placeholder="Category Colour"/>
                 <span class="help-block">A unique color to define this category</span>
             </div>
-            <div class="form-group">
-                <button class="btn btn-success btn-lg" type="submit">Save Category</button>
-                <a class="btn btn-danger btn-lg pull-right" href="#">Delete Category</a>
+            <div class="form-group mtl">
+                <button class="btn btn-success" type="submit">Save Category</button>
+                <a class="btn btn-danger pull-right" href="#">Delete Category</a>
             </div>
         </div>
     </div>
-    <div class="container-box">
 
-    </div>
 </tpl:layout>

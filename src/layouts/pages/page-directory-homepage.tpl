@@ -88,7 +88,7 @@
                                                 </tbody></table>
                                         </div>
                                         <div class="panel-footer-clear mbl">
-                                            <a tpl:href="/repository/${object_uri}/add" class="btn btn-outline btn-rounded btn-secondary" role="button">
+                                            <a tpl:href="/data/${object_uri}/add" class="btn btn-outline btn-rounded btn-secondary" role="button">
                                                 <tpl:data value="media_title" />
                                             </a>
                                         </div>

@@ -21,6 +21,12 @@ class Data extends Post {
 
     }
 
+    public function canViewDataItem($uri, $format=''){
+
+        //Check if the current user can view this data;
+        return true;
+    }
+
 
     public function canViewAdd($uri, $format=''){
 

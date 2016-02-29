@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tpl:layout xmlns:tpl="http://budkit.org/tpl">
-    <input type="file" tpl:data-step="${order}" tpl:name="data_${type}_${uri}" class="input-lg form-control flat fileupload" />
-    <input id="fileupload" type="file" name="files[]" data-url="/member/timeline.json" multiple="multiple" class="fileupload" />
-    <script>
-        //<![CDATA[
-        require(['config'], function () {
-            require(['blueimp.fileupload'], function() {
-
-                $('.fileupload').fileupload({
-                    dataType: 'json',
-                    done: function (e, data) {
-                        $.each(data.result.files, function (index, file) {
-                            $('<p/>').text(file.name).appendTo(document.body);
-                        });
-                    }
-                });
-
-            })
-        });
-       // ]]>
-    </script>
+    <div class="file-upload">
+        <input type="file" tpl:data-step="${order}" data-multiple-caption="{count} files selected"  tpl:name="data_${type}_${uri}[]" tpl:required="${if://required=1}" tpl:multiple="${if://multiple=1}"  />
+        <label tpl:for="data_${type}_${uri}">Choose a file</label>
+    </div>
 </tpl:layout>

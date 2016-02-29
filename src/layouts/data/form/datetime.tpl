@@ -4,23 +4,23 @@
     <div class="controls inline-inputs clearfix">
         <div class="row">
             <div class="col-md-2 col-sm-2 prn">
-                <tpl:datepicker type="day"  tpl:name="data_${type}_day_${uri}" tpl:required="${if://required=1}"
+                <tpl:datepicker type="day"  tpl:name="data_${type}_${uri}_day" tpl:required="${if://required=1}"
                                 id="dob-day" class="form-control"/>
             </div>
             <div class="col-md-3 col-sm-6 prn">
-                <tpl:datepicker type="month"  tpl:name="data_${type}_month_${uri}" tpl:required="${if://required=1}" class="form-control"/>
+                <tpl:datepicker type="month"  tpl:name="data_${type}_${uri}_month" tpl:required="${if://required=1}" class="form-control"/>
             </div>
             <div class="col-md-2 col-sm-4 prn">
-                <tpl:datepicker type="year"  tpl:name="data_${type}_year_${uri}" tpl:required="${if://required=1}"  tpl:range="${range.start}" tpl:limit="${range.stop}" class="form-control"/>
+                <tpl:datepicker type="year"  tpl:name="data_${type}_${uri}_year" tpl:required="${if://required=1}"  tpl:range="${range.start}" tpl:limit="${range.stop}" class="form-control"/>
             </div>
 
             <!-- if we need we are showing the time -->
             <tpl:condition on="time" test="empty" is="0">
                 <div class="col-md-2 col-sm-6 prn">
-                    <tpl:datepicker type="hour"  tpl:name="data_${type}_hour_${uri}" tpl:required="${if://required=1}" class="form-control"/>
+                    <tpl:datepicker type="hour"  tpl:name="data_${type}_${uri}_hour" tpl:required="${if://required=1}" class="form-control"/>
                 </div>
                 <div class="col-md-2 col-sm-4 prn">
-                    <tpl:datepicker type="min"  tpl:name="data_${type}_min_${uri}" tpl:required="${if://required=1}"  class="form-control"/>
+                    <tpl:datepicker type="min"  tpl:name="data_${type}_${uri}_min" tpl:required="${if://required=1}"  class="form-control"/>
                 </div>
             </tpl:condition>
         </div>

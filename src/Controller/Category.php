@@ -77,7 +77,75 @@ class Category extends CMSAdmin
 
     }
 
-    public function edit($uri, $format = 'html')
+    protected function loadCategoryData( $uri ){
+
+        //2. load the category;
+        $category = $this->application->createInstance(Model\Category::class);
+        $category = $category->loadObjectByURI( $uri );
+
+
+        $existingForm      = json_decode( $category->getPropertyValue("category_form"), true );
+        $existingReduce    = function( $field ) use ( &$existingReduce ) {
+
+
+            return "data_{$field['type']}_{$field['uri']}";
+
+        };
+        $dataFields   =  array_map( $existingReduce , (array)$existingForm );
+        $displayFields= array_merge( ["object_uri"], $dataFields );
+
+
+        //Get the category Data;
+        $data       = $this->application->createInstance(Model\Data::class);
+        $results    = $data->getObjectsList( $category->getObjectURI(), $dataFields );
+        $rows       = $results->fetchAll();
+        //print_r($results->fetchAll());
+
+         $categorydata = [];
+
+        array_walk( $rows , function( &$item, $key ) use ( &$displayFields , &$categorydata ) {
+            $categorydata[] = [
+                "uri" => $item['object_uri'],
+                "data" => array_filter($item, function ($field) use ( $displayFields ) {
+                    //echo $field;
+                    return in_array($field,  $displayFields);
+
+                }, ARRAY_FILTER_USE_KEY )
+            ];
+        });
+
+//        print_R($dataFields);
+//        print_R($categorydata);
+
+        $this->view->setData("categorydata", $categorydata );
+    }
+
+
+    public function manage($uri, $group, $format='html'){
+
+        //1. If ID is null, we are creating;
+        if(empty($uri)) {
+            throw new \Exception("Category URI not defined");
+            return false;
+        }
+
+        //Load data managers;
+        switch($group){
+            case 'data':
+                $this->loadCategoryData( $uri );
+                break;
+            default:
+                break;
+        }
+
+
+        $this->view->setData("group", $group);
+
+        return $this->edit($uri, $format , $group );
+
+    }
+
+    public function edit($uri, $format = 'html', $form = 'form')
     {
         //1. If ID is null, we are creating;
         if(empty($uri)) return $this->create();
@@ -118,25 +186,87 @@ class Category extends CMSAdmin
         $this->view->setData("method", "update");
         $this->view->setData("object_uri", $uri);
         $this->view->setData("csrftoken", $this->application->session->getCSRFToken());
-        $this->view->setData("title", $category->getPropertyValue("media_title"). " form" );
-        $this->view->setLayout("categories/editor");
+
+
+        $this->view->addData("action", ["title"=>"Preview","link"=>"/data/{$uri}/add", "class"=>"btn-primary"]);
+
+        $this->view->addToBlock("form", 'import://category/category-'.$form );
+
+        $this->prepareLayoutWithTitle("category/category-editor", $category->getPropertyValue("media_title"). " form");
 
     }
 
+    public function canViewDataCategory($uri, $format=''){
 
-    private function prepareLayoutWithTitle($title){
+        //Check if the current user can view this data;
+        return true;
+    }
+
+    private function prepareLayoutWithTitle($layout, $title){
+
+        $this->view->addToBlock("main", "import://".$layout );
 
         $this->view->setData("title", $title );
         $this->view->setLayout("member/dashboard");
 
+
+        $this->application->observer->attach([$this, "extendAdminMenu"], "Layout.onCompile.menu.data");
+
+    }
+
+
+    public function extendAdminMenu($event)
+    {
+
+        $menuId = $event->getData("uid");
+        $menuItems = (array)$event->getResult();
+
+        if (preg_match("/^repoadmin:(\\d+[a-zA-Z0-9]{9})/", $menuId, $matches)) {
+
+            $repoid = $matches[1];
+
+            $menuItems = array_merge($menuItems, [
+                    array(
+                        "menu_title" => "Data",
+                        "menu_url" => "/admin/repository/{$repoid}/data",
+                    ),
+                    array(
+                        "menu_title" => "Logic",
+                        "menu_url" => "/admin/repository/{$repoid}/logic",
+                    ),
+                    array(
+                        "menu_title" => "Analysis",
+                        "menu_url" => "/admin/repository/{$repoid}/analysis",
+                    ),
+                    array(
+                        "menu_title" => "Configure",
+                        "menu_url" => "/admin/repository/{$repoid}/edit",
+                    ),
+                    array(
+                        "menu_title" => "Fields",
+                        "menu_url" => "/admin/repository/{$repoid}/fields",
+                    ),
+                    array(
+                        "menu_title" => "Notifications",
+                        "menu_url" => "/admin/repository/{$repoid}/notifications",
+                    ),
+                    array(
+                        "menu_title" => "Timeline",
+                        "menu_url" => "/admin/repository/{$repoid}/story",
+                    )
+                ]
+            );
+
+
+            return $event->setResult($menuItems);
+
+        }
     }
 
     public function add()
     {
 
         //$this->view->setData("object_id", 0);
-        $this->view->setData("title", "New Category");
-        $this->view->setLayout("categories/editor");
 
         //3. Get the authorities list
         $authorities = $this->application->createInstance( Authority::class );
@@ -146,6 +276,10 @@ class Category extends CMSAdmin
         //4. Set Properties
         $this->view->setData("authorities", $authorities->getAuthorities());
         $this->view->setData("csrftoken", $this->application->session->getCSRFToken());
+
+        //$this->view->addToBlock("form", 'import://category/category-form' );
+
+        $this->prepareLayoutWithTitle("category/category-new", "New category");
 
     }
 
@@ -183,7 +317,7 @@ class Category extends CMSAdmin
 
             $this->response->addAlert("{$category->getPropertyValue("media_title")} category was created", "success");
 
-            return $dispatcher->redirect("/admin/repository/category/{$category->getLastSavedObjectURI()}/edit");
+            return $dispatcher->redirect("/admin/repository/{$category->getLastSavedObjectURI()}/edit");
         }
 
 
@@ -267,8 +401,16 @@ class Category extends CMSAdmin
         endforeach;
 
         //update the order;
-        $form = (array) $input->getArray("category_form", "", "post");
+        $existingForm      = json_decode( $category->getPropertyValue("category_form"), true );
+        $existingReduce    = function( $field ) use ( &$existingReduce ) {
 
+            return "data_{$field['type']}_{$field['uri']}";
+
+        };
+        $existingFields    = array_map( $existingReduce , (array)$existingForm );
+
+
+        $form = (array) $input->getArray("category_form", "", "post");
 
         //Store fields as per order;
         foreach( $form as $k=>$field){
@@ -284,7 +426,6 @@ class Category extends CMSAdmin
             $choiceTypes = ["picturechoice","multichoice"];
 
             if(in_array($end["type"], $choiceTypes)){
-
                 $choices = $end["choice"];
 
                 foreach( (array)$choices as $c=>$choice){
@@ -302,10 +443,25 @@ class Category extends CMSAdmin
             if(!isset($field['existing'])) {
                 unset($form[$k]);
             }
+
+            //if this field is existing remove from the
+            //existingfields array, and prevent its data from being dropped;
+            if(($key = array_search("data_{$end['type']}_{$end['uri']}", $existingFields)) !== false) {
+                unset($existingFields[$key]);
+            }
         }
 
+        //slate the remaining fields for removal
+        //Entity->deleteProperties();
+        //print_R( $existingFields  ); die;
 
+        //ksort the form field;
         ksort($form);
+
+
+        if(!empty($existingFields)){
+            $category->deleteProperties($existingFields);
+        }
 
         //json encode form data;
         $category->setPropertyValue("category_form", json_encode($form));

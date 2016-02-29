@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="container prl pbl pll">
-                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/repository/${object_uri}/put"  data-enable-shim="true">
+                    <form class="stream-flow add-listing" id="budkit-form" role="form" method="post" tpl:action="/data/${object_uri}/put"  data-enable-shim="true" enctype="multipart/form-data">
                         <div class="stream-list">
                             <div class="stream-line"/>
                             <ul class="stream">
@@ -118,19 +118,10 @@
                         </div>
                     </form>
                 </div>
-                <div id="map" style="display: none;"></div>
                 <tpl:import name="foot" />
                 <script>
                     require(['config'], function () {
-                        require.config({
-                            googlemaps: {
-                                params: {
-                                    key: 'AIzaSyBZrzwMucdDb547ZrUkWrhkIChoNJfAC88',
-                                    libraries: 'places'
-                                }
-                            }
-                        });
-                        require(['budkit.map', 'budkit.form'], function() {
+                        require(['budkit.form'], function() {
                             $("#budkit-form").bkform({
                                 form_holder : "#budkit-form-holder",
                                 form_navigator: "#budkit-form-navigator"
