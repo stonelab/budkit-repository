@@ -5,7 +5,11 @@
             <h4 class="panel-title">                 <input type="hidden" tpl:name="category_form[${order}][uri]" tpl:value="${uri}" />
                <span class="field-count"><input type="text" tpl:value="${order}" data-toggle="field-count" readonly="readonly" tpl:name="category_form[${order}][order]" /></span>
                 <span role="button"><tpl:data  value="question" default="Picture choice" /></span>
-            <span class="pins pull-right">
+                <tpl:condition on="uri" test="empty" is="0">
+                    <span class="ionicon ion-minus-round color-silver mrs mls"></span>
+                    <span class="color-silver">uri: <tpl:data value="uri" /></span>
+                </tpl:condition>
+                <span class="pins pull-right">
                     <a data-toggle="remove-field" href="#" class="color-alizarin">
                         Remove
                     </a>
@@ -53,7 +57,7 @@
                     <span class="input-group-addon">
                         <input type="file" />
                     </span>
-                        <input type="text" class="form-control" data-toggle="multichoice-choice" tpl:name="category_form[${order}][picturechoice][choice][]"  placeholder="Picture caption" />
+                        <input type="text" class="form-control" data-toggle="multichoice-choice" tpl:name="category_form[${$.order}][picturechoice][choice][]"  placeholder="Picture caption" />
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-inverse" data-toggle="add-choice">
                                 <i class="ionicons ion-plus color-green-sea" />

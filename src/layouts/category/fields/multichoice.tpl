@@ -2,10 +2,15 @@
 <tpl:layout xmlns:tpl="http://budkit.org/tpl">
     <div tpl:class="panel panel-field hide${type}">
         <div class="panel-heading" role="tab">
-            <h4 class="panel-title">                 <input type="hidden" tpl:name="category_form[${order}][uri]" tpl:value="${uri}" />
+            <h4 class="panel-title">
+                <input type="hidden" tpl:name="category_form[${order}][uri]" tpl:value="${uri}" />
                <span class="field-count"><input type="text" tpl:value="${order}" data-toggle="field-count" readonly="readonly" tpl:name="category_form[${order}][order]" /></span>
                 <span role="button"><tpl:data value="question" default="Multichoice" /></span>
-            <span class="pins pull-right">
+                <tpl:condition on="uri" test="empty" is="0">
+                    <span class="ionicon ion-minus-round color-silver mrs mls"></span>
+                    <span class="color-silver">uri: <tpl:data value="uri" /></span>
+                </tpl:condition>
+                <span class="pins pull-right">
                     <a data-toggle="remove-field" href="#" class="color-alizarin">
                         Remove
                     </a>

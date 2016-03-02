@@ -151,6 +151,8 @@ class Data extends Content
                 $value = $input->getString($property, "", "post");
             }
 
+            //@TIME property;
+
             //@TODO validate value based on property type!
             if (!empty($value)):
                 $repository->setPropertyValue($property, $value);

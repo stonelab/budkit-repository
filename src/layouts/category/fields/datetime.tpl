@@ -8,6 +8,10 @@
 
                 <span class="field-count"><input type="text" tpl:value="${order}" data-toggle="field-count" readonly="readonly" tpl:name="category_form[${order}][order]" /></span>
                 <span role="button"><tpl:data value="question" default="Date &amp; Time" /></span>
+                <tpl:condition on="uri" test="empty" is="0">
+                    <span class="ionicon ion-minus-round color-silver mrs mls"></span>
+                    <span class="color-silver">uri: <tpl:data value="uri" /></span>
+                </tpl:condition>
                 <span class="pins pull-right">
                     <a data-toggle="remove-field" href="#" class="color-alizarin">
                         Remove

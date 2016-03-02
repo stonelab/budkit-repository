@@ -88,7 +88,7 @@
                                         <tpl:condition on="type" test="equals" is="statement">
                                             <div class="item has-step-number form-step-holder">
                                                 <span class="btn btn-lg btn-circle step-number"><tpl:data value="order" /></span>
-                                                <h4 class="subject heading border-bottom">
+                                                <h4 class="subject heading">
                                                     <em><tpl:data value="text" parsedown="true" markup="true" /></em>
                                                 </h4>
                                                 <div class="mtl">

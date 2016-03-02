@@ -13,6 +13,7 @@ class Provider implements Service
 
     protected $application;
 
+
     public function __construct(Container $application)
     {
         $this->application = $application;
@@ -26,11 +27,13 @@ class Provider implements Service
     public function onRegister()
     {
 
-        //load home page vars
-        $this->application->observer->attach([$this, "onHomePageLoad"], "Page.onHomePage");
+        $config = $this->application->config;
 
-        //Register a few more listeners
-        $this->application->observer->attach([$this, "onLoadPageTemplateDefinition"], "Layout.onLoad.page.template.definitions");
+        if ($config->get("setup.database.installed")) {
+
+            //Extend the dashboardmenu
+            $this->application->observer->attach([$this, "extendDashboardMenu"], "Layout.onCompile.menu.data");
+        }
 
         //Check has permission
         $this->application->observer->attach([$this, "onLoadPostExtensions"], "Layout.load.post.extensions");
@@ -88,16 +91,9 @@ class Provider implements Service
             });
         });
 
-        $config = $this->application->config;
-
-        if ($config->get("setup.database.installed")) {
-
-            //Extend the dashboardmenu
-            $this->application->observer->attach([$this, "extendUserMenu"], "Layout.onCompile.menu.data");
-        }
     }
 
-    public function extendUserMenu($event)
+    public function extendDashboardMenu($event)
     {
 
         $menuId = $event->getData("uid");
@@ -109,21 +105,21 @@ class Provider implements Service
         //check for a user here is unnecessary as permissions are checked by Menu\Tpl
         //$user = $this->application->createInstance( User::class );
         //$menuUser = $user->getCurrentUser();
-        foreach ($menuItems as $id => $menuItem) {
-            if ($menuItem["menu_url"] == "/admin/settings/configuration") {
-//                array_push($menuItems, array(
-//                        "menu_title" => "Repository",
-//                        "menu_url" => "/admin/repository",
-//                    )
-//                );
-                $menuItem['children'] = array_merge($menuItem['children'], [array(
-                    "menu_title" => "Repository",
-                    "menu_url" => "/admin/repository",
-                )]);
-                $menuItems[$id] = $menuItem;
-                break;
-            }
-        }
+//        foreach ($menuItems as $id => $menuItem) {
+//            if ($menuItem["menu_url"] == "/admin/settings/configuration") {
+                array_push($menuItems, array(
+                        "menu_title" => "Repository",
+                        "menu_url" => "/admin/repository",
+                    )
+                );
+//                $menuItem['children'] = array_merge($menuItem['children'], [array(
+//                    "menu_title" => "Repository",
+//                    "menu_url" => "/admin/repository",
+//                )]);
+//                $menuItems[$id] = $menuItem;
+//                break;
+//            }
+//        }
         return $event->setResult($menuItems);
     }
 
@@ -178,38 +174,38 @@ class Provider implements Service
         // print_R($graph);
     }
 
-    public function onHomePageLoad($event){
-
-        $data = $event->getData();
-
-        //print_r($data);
-        //Lets load some vars!
-        if($data['media_template'] == "directory-homepage"){
-
-            $category = $this->application->createInstance( Model\Category::class );
-
-            //$page = $page->defineValueGroup("page");
-            $categories = $category->getAllMedia("category");
-
-            $this->application->response->setParameter("categories", $categories);
-            //$this->application->response->addAlert(t("Howdy :)"), "warning");
-
-        }
-
-    }
-
-    public function onLoadPageTemplateDefinition($event)
-    {
-
-        //push your template name to the end of the template list;
-        $templates = (array)$event->getResult(); //loads an array of already existing templates
-        $templates[] = [
-            "name" => "directory-homepage",
-            "source" => $this->getPackageDir() . "layouts" . DS
-        ];
-
-        $event->setResult($templates);
-    }
+//    public function onHomePageLoad($event){
+//
+//        $data = $event->getData();
+//
+//        //print_r($data);
+//        //Lets load some vars!
+//        if($data['media_template'] == "directory-homepage"){
+//
+//            $category = $this->application->createInstance( Model\Category::class );
+//
+//            //$page = $page->defineValueGroup("page");
+//            $categories = $category->getAllMedia("category");
+//
+//            $this->application->response->setParameter("categories", $categories);
+//            //$this->application->response->addAlert(t("Howdy :)"), "warning");
+//
+//        }
+//
+//    }
+//
+//    public function onLoadPageTemplateDefinition($event)
+//    {
+//
+//        //push your template name to the end of the template list;
+//        $templates = (array)$event->getResult(); //loads an array of already existing templates
+//        $templates[] = [
+//            "name" => "directory-homepage",
+//            "source" => $this->getPackageDir() . "layouts" . DS
+//        ];
+//
+//        $event->setResult($templates);
+//    }
 
 
     public function definition()

@@ -183,6 +183,7 @@ class Category extends CMSAdmin
         $this->view->setData("authorities", $authorities->getAuthorities());
 
         $this->view->setData("editing", $editing);
+        $this->view->setData("sbstate", "minimized");
         $this->view->setData("method", "update");
         $this->view->setData("object_uri", $uri);
         $this->view->setData("csrftoken", $this->application->session->getCSRFToken());
@@ -414,6 +415,10 @@ class Category extends CMSAdmin
 
         //Store fields as per order;
         foreach( $form as $k=>$field){
+            //because we are using timestamps to group on newly added elements
+            //if(!isset($field['existing']) ) {
+                unset($form[$k]);
+            //}
 
             $end = end($field);
             $end["type"] = key($field);
@@ -439,10 +444,6 @@ class Category extends CMSAdmin
 
             $form[$field['order']] = $end;
 
-            //because we are using timestamps to group on newly added elements
-            if(!isset($field['existing'])) {
-                unset($form[$k]);
-            }
 
             //if this field is existing remove from the
             //existingfields array, and prevent its data from being dropped;
