@@ -132,6 +132,57 @@ class Category extends Content
 
     }
 
+    /**
+     * Returns all data in this category
+     *
+     * @param $categoryURI
+     * @return array
+     */
+    public function getCategoryData( $categoryURI ){
+
+        //2. load the category;
+        $category = $this;;
+        $category = $category->loadObjectByURI( $categoryURI );
+
+
+        $existingForm      = json_decode( $category->getPropertyValue("category_form"), true );
+        $existingReduce    = function( $field ) use ( &$existingReduce ) {
+
+
+            return "data_{$field['type']}_{$field['uri']}";
+
+        };
+
+        $dataFields   =  array_map( $existingReduce , (array)$existingForm );
+        $displayFields=   $dataFields ;
+
+
+        //Get the category Data;
+        $data       = $this->container->createInstance( Data::class);
+        $results    = $data->getObjectsList( "repo://".$category->getObjectURI(), $dataFields );
+        $rows       = $results->fetchAll();
+        //print_r($results->fetchAll());
+
+        $categorydata = [];
+
+        array_walk( $rows , function( &$item, $key ) use ( &$displayFields , &$categorydata ) {
+
+            $categorydata[] = [
+                "uri" => $item['object_uri'],
+                "data" => array_filter($item, function ($field) use ( $displayFields ) {
+                    //echo $field;
+
+
+
+                    return in_array($field,  $displayFields);
+
+                }, ARRAY_FILTER_USE_KEY )
+            ];
+        });
+
+        return $categorydata;
+    }
+
     public function getSignUpFormFields(){
         return $this->signup;
     }

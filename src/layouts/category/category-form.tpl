@@ -27,6 +27,7 @@
                     <option value="">...</option>
                     <tpl:loop foreach="authorities">
                         <option tpl:value="${authority_id}" tpl:selected="${if://$.editing.category_view_permission=authority_id}">
+                            <tpl:loop limitby="indent">:-- </tpl:loop>
                             <span><tpl:data value="authority_title" /></span>
                         </option>
                     </tpl:loop>
@@ -41,6 +42,7 @@
                     <option value="">...</option>
                     <tpl:loop foreach="authorities">
                         <option tpl:value="${authority_id}" tpl:selected="${if://$.editing.category_submit_permission=authority_id}">
+                            <tpl:loop limitby="indent">:-- </tpl:loop>
                             <span><tpl:data value="authority_title" /></span>
                         </option>
                     </tpl:loop>

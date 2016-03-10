@@ -81,38 +81,8 @@ class Category extends CMSAdmin
 
         //2. load the category;
         $category = $this->application->createInstance(Model\Category::class);
-        $category = $category->loadObjectByURI( $uri );
+        $categorydata = $category->getCategoryData( $uri );
 
-
-        $existingForm      = json_decode( $category->getPropertyValue("category_form"), true );
-        $existingReduce    = function( $field ) use ( &$existingReduce ) {
-
-
-            return "data_{$field['type']}_{$field['uri']}";
-
-        };
-        $dataFields   =  array_map( $existingReduce , (array)$existingForm );
-        $displayFields= array_merge( ["object_uri"], $dataFields );
-
-
-        //Get the category Data;
-        $data       = $this->application->createInstance(Model\Data::class);
-        $results    = $data->getObjectsList( $category->getObjectURI(), $dataFields );
-        $rows       = $results->fetchAll();
-        //print_r($results->fetchAll());
-
-         $categorydata = [];
-
-        array_walk( $rows , function( &$item, $key ) use ( &$displayFields , &$categorydata ) {
-            $categorydata[] = [
-                "uri" => $item['object_uri'],
-                "data" => array_filter($item, function ($field) use ( $displayFields ) {
-                    //echo $field;
-                    return in_array($field,  $displayFields);
-
-                }, ARRAY_FILTER_USE_KEY )
-            ];
-        });
 
 //        print_R($dataFields);
 //        print_R($categorydata);
@@ -248,12 +218,12 @@ class Category extends CMSAdmin
                         "menu_url" => "/admin/repository/{$repoid}/fields",
                     ),
                     array(
-                        "menu_title" => "Notifications",
-                        "menu_url" => "/admin/repository/{$repoid}/notifications",
+                        "menu_title" => "Permissions",
+                        "menu_url" => "/admin/repository/{$repoid}/permissions",
                     ),
                     array(
-                        "menu_title" => "Timeline",
-                        "menu_url" => "/admin/repository/{$repoid}/story",
+                        "menu_title" => "Notifications",
+                        "menu_url" => "/admin/repository/{$repoid}/notifications",
                     )
                 ]
             );
@@ -349,9 +319,10 @@ class Category extends CMSAdmin
             if ($category->getObjectId()) { //if we have a page;
 
                 //Checks if the current user is the owner of this page or has special permissions to edit pages
-                if ($category->getPropertyValue("media_owner") == $this->user->getPropertyValue("user_name_id") || $this->checkPermission( "special", "/admin/repository/category")) {
+                if ($category->getPropertyValue("media_owner") == $this->user->getPropertyValue("user_name_id") || $this->checkPermission( "special", "/admin/repository")) {
 
-                    //we will save the content as HTML
+                    //if we have form data!
+
                     $category = $this->bindFormData($category); //binds input data;
 
                     //$category->setPropertyValue("media_published", Time::stamp())
@@ -413,59 +384,59 @@ class Category extends CMSAdmin
 
         $form = (array) $input->getArray("category_form", "", "post");
 
-        //Store fields as per order;
-        foreach( $form as $k=>$field){
-            //because we are using timestamps to group on newly added elements
-            //if(!isset($field['existing']) ) {
+        //If we form fields to update, if not just skip this part
+        //Also prevents fields from being deleted when the configure form is saved;
+        if(!empty($form)) {
+
+            //Store fields as per order;
+            foreach ($form as $k => $field) {
+                //because we are using timestamps to group on newly added elements
+                //if(!isset($field['existing']) ) {
                 unset($form[$k]);
-            //}
+                //}
 
-            $end = end($field);
-            $end["type"] = key($field);
-            $end['order'] = $field['order'];
+                $end = end($field);
+                $end["type"] = key($field);
+                $end['order'] = $field['order'];
 
-            //Field unique identifiers  are important for tracking data;
-            $end["uri"] = empty($field["uri"]) ? getRandomString(10) : $field["uri"];
+                //Field unique identifiers  are important for tracking data;
+                $end["uri"] = empty($field["uri"]) ? getRandomString(10) : $field["uri"];
 
-            //no empty choices;
-            $choiceTypes = ["picturechoice","multichoice"];
+                //no empty choices;
+                $choiceTypes = ["picturechoice", "multichoice"];
 
-            if(in_array($end["type"], $choiceTypes)){
-                $choices = $end["choice"];
+                if (in_array($end["type"], $choiceTypes)) {
+                    $choices = $end["choice"];
 
-                foreach( (array)$choices as $c=>$choice){
-                    if(empty($choice)){
-                        unset($choices[$c]);
+                    foreach ((array)$choices as $c => $choice) {
+                        if (empty($choice)) {
+                            unset($choices[$c]);
+                        }
                     }
+
+                    $end["choice"] = $choices;
                 }
 
-                $end["choice"] = $choices;
+                $form[$field['order']] = $end;
+
+
+                //if this field is existing remove from the
+                //existingfields array, and prevent its data from being dropped;
+                if (($key = array_search("data_{$end['type']}_{$end['uri']}", $existingFields)) !== false) {
+                    unset($existingFields[$key]);
+                }
             }
 
-            $form[$field['order']] = $end;
+            ksort($form);
 
-
-            //if this field is existing remove from the
-            //existingfields array, and prevent its data from being dropped;
-            if(($key = array_search("data_{$end['type']}_{$end['uri']}", $existingFields)) !== false) {
-                unset($existingFields[$key]);
+            if (!empty($existingFields)) {
+                $category->deleteProperties($existingFields);
             }
+
+            //json encode form data;
+            $category->setPropertyValue("category_form", json_encode($form));
+
         }
-
-        //slate the remaining fields for removal
-        //Entity->deleteProperties();
-        //print_R( $existingFields  ); die;
-
-        //ksort the form field;
-        ksort($form);
-
-
-        if(!empty($existingFields)){
-            $category->deleteProperties($existingFields);
-        }
-
-        //json encode form data;
-        $category->setPropertyValue("category_form", json_encode($form));
 
         return $category;
 

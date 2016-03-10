@@ -28,6 +28,12 @@ class Data extends Post {
     }
 
 
+
+    public function view( $id, $format = 'html')
+    {
+       parent::read(null, $id, $format);
+    }
+
     public function canViewAdd($uri, $format=''){
 
         //1. If ID is null, we are creating;

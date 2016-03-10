@@ -41,6 +41,14 @@ class Provider implements Service
         //Manage stories
         $this->application->observer->attach([$this, "onPreparePostStory"], "Story.onPrepareStory");
 
+        //load home page vars
+        //$this->application->observer->attach([$this, "onHomePageLoad"], "Page.onHomePage");
+        $this->application->observer->attach([$this, "onSinglePostLoad"], "Post.onPost");
+
+        //Register a few more listeners
+        //$this->application->observer->attach([$this, "onLoadPageTemplateDefinition"], "Layout.onLoad.page.template.definitions");
+        $this->application->observer->attach([$this, "onLoadPostTemplateDefinition"], "Layout.onLoad.post.template.definitions");
+
         //Add Roues
         ////Grouping routes under a prefix;
         //
@@ -67,31 +75,71 @@ class Provider implements Service
         });
 
         Route::attach("/data", Controller\Data::class, function ($route) {
+
+            //The order of the token array should be the
+            //the order of the params loaded;
             $route->setTokens(array(
-                'id' => '(\d+[a-zA-Z0-9]{9})?', //category id
-                'item' => '(\d+[a-zA-Z0-9]{9})?', //item id
+                'repo' => '(\d+[a-zA-Z0-9]{9})?', //category id
+                'id' => '(\d+[a-zA-Z0-9]{9})?', //item id
                 'format' => '(\.[^/]+)?'
             ));
             //subroutes
-            $route->add('{/item}{format}', 'read')->setPermissionHandler("view", "canViewDataItem"); //show a particular listing
-            $route->add('{/item}/view{format}', "view");
-            $route->add('{/item}/edit{format}', "edit");
-            $route->add('{/id}/add{format}', "add")->setPermissionHandler("view", "canViewAdd");
+            $route->add('/{id}{format}', 'view')->setPermissionHandler("view", "canViewDataItem"); //show a particular listing
+            //$route->add('/{id}/view{format}', "view");
+            $route->add('/{id}/edit{format}', "edit");
+            $route->add('/{repo}/add{format}', "add")->setPermissionHandler("view", "canViewAdd");
 
             //storing an item in the repository;
             $route
-                ->addPost('/{id}/put{format}', 'create')
+                ->addPost('/{repo}/put{format}', 'create')
                 ->setRequiredPermission("execute")
                 ->setPermissionHandler("execute", "canExecuteCreate");
 
             $route->attach('/repository', Controller\Category::class, function ($route) {
                 //$route->setAction(Controller\Admin\Settings\Permissions::class);
-                $route->addGet('{/id}{format}', 'index')->setPermissionHandler("view", "canViewDataCategory");
+                $route->addGet('{/repo}{format}', 'index')->setPermissionHandler("view", "canViewDataCategory");
 
             });
         });
 
     }
+
+    public function onSinglePostLoad($event){
+
+        //it is passed as a result, because it can be modified;
+        $post   = $event->getResult();
+
+        //If we are displaying a repository item?
+        if (preg_match("/^repo:\/\/(\\d+[a-zA-Z0-9]{9})/", $post['object_type'], $matches)) {
+
+            $repo = $this->application->createInstance(Model\Data::class);
+
+            $post['media_data'] = $repo->getData( $post['object_uri'] );
+
+            $post['media_template'] = "posts/post-single-repo";
+            $post['media_title'] = "Host";
+
+        }
+
+        $event->setResult( $post );
+
+    }
+
+
+    public function onLoadPostTemplateDefinition($event)
+    {
+
+        //push your template name to the end of the template list;
+        $templates = (array)$event->getResult(); //loads an array of already existing templates
+        $templates[] = [
+            "name" => "posts/post-single-repo",
+            "source" => $this->getPackageDir() . "layouts" . DS
+        ];
+
+        $event->setResult($templates);
+    }
+
+
 
     public function extendDashboardMenu($event)
     {
@@ -151,7 +199,6 @@ class Provider implements Service
             $object = $story->getTail()->getData();
 
             $category = $repository->loadObjectByURI($object['data_category'], ['category_name', 'media_title'])->getPropertyData();
-
 
             $story->setData( $story->getTail()->getData() );
 

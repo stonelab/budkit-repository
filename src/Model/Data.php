@@ -183,10 +183,131 @@ class Data extends Content
         $this->setPropertyValue("data_category", $category);
 
         //Determine the target
-        if (!$this->saveObject($objectURI, $category)) { //category uri, because the data object type!
+        if (!$this->saveObject($objectURI, "repo://".$category)) { //category uri, because the data object type!
             //There is a problem! the error will be in $this->getError();
             return false;
         }
         return true;
     }
+
+
+    /**
+     * Returns the category group data;
+     *
+     * @param $dataURI
+     */
+    public function getData( $dataURI , $inCategory = "" ){
+
+        //2. load the category;
+        $data       = $this->loadObjectByURI( $dataURI );
+
+        //We need to have loaded an object;
+        if(empty($data->getObjectType())) return [];
+
+        //Get the category definition, the data type is the URI of the category
+        $category   = $this->container->createInstance( Category::class );
+        $category   = $category->loadObjectByURI( $data->getPropertyValue("data_category") );
+
+
+        //print_R($category->getPropertyData());
+
+        //Build the category form;
+        $existingField = [];
+        $existingForm      = json_decode( $category->getPropertyValue("category_form"), true );
+        $existingReduce    = function( $field ) use ( &$existingReduce, &$existingField ) {
+
+            $key = "data_{$field['type']}_{$field['uri']}";
+            $existingField[ $key ] = $field;
+
+            //modifier fields;
+            if($field['type'] == "location"){
+                $existingField[ $key."_lat" ] = null;
+                $existingField[ $key."_lng" ] = null;
+            }
+
+            if($field['type'] == "datetime"){
+                $existingField[ $key."_year" ] = null;
+                $existingField[ $key."_month" ] = null;
+                $existingField[ $key."_day" ] = null;
+                $existingField[ $key."_hour" ] = null;
+                $existingField[ $key."_min" ] = null;
+                $existingField[ $key."_sec" ] = null;
+            }
+
+            return $key;
+
+        };
+
+
+        $dataFields   =  array_map( $existingReduce , (array)$existingForm );
+        //$displayFields=  array_merge( ["object_uri"], $dataFields );
+
+        //Get the category Data;
+        $results = $this->getObjectsList( $data->getObjectType(), array_keys($existingField) , $data->getObjectURI() );
+        $row     = current( $results->fetchAll() );
+        $user    = $this->container->createInstance( User::class );
+
+
+        array_filter( $row , function( &$item, $key ) use ( &$row, &$existingField , $user ) {
+
+            if( array_key_exists( $key, $existingField )){
+
+                $defintion = $existingField[$key];
+
+                if(isset($defintion['authority']) && $user->isMemberOfAuthorityGroup( $defintion['authority'] , true)) {
+
+                    $existingField[$key]["value"] = $item;
+                    $existingField[$key]["template"] = "data/display/".$defintion['type'];
+
+                    //datetime modifiers
+                    if($defintion['type'] == "datetime"){
+                        $existingField[$key]["value"] = date(
+                            "Y-m-d H:i:s",
+                            mktime($row[$key."_hour"],$row[$key."_min"],$row[$key."_sec"],$row[$key."_month"],$row[$key."_day"],$row[$key."_year"])
+                        );
+                        unset($row[$key."_year"],$row[$key."_month"],$row[$key."_day"],$row[$key."_hour"],$row[$key."_min"],$row[$key."_sec"]);
+                    }
+
+
+                    //location modifiers
+                    if($defintion['type'] == "location"){
+
+                        $existingField[$key]["lat"] = $row[$key."_lat"];
+                        $existingField[$key]["lng"] = $row[$key."_lng"];
+
+                        unset($row[$key."_lat"]);
+                        unset($row[$key."_lng"]);
+
+                    }
+
+                    if(in_array($defintion['type'], ["dropdown", "fileupload"]) ||
+                        ( $defintion['type'] == "multichoice" && $defintion["multiselect"] == 1 ) ){
+
+                        $existingField[$key]["value"] = json_decode( $item , true );
+                    }
+
+                    //Some fields are not needed;
+                    if(isset($existingField[$key]["choices"])){
+                        unset($existingField[$key]["choices"]);
+                    }
+
+                    $row[$key] = $existingField[$key];
+
+                    //return $existingField[$key];
+                    return true;
+
+                }else{
+                    unset($row[$key]);
+                }
+            }else{
+                unset($row[$key]);
+            }
+        }, ARRAY_FILTER_USE_BOTH);
+
+        return $row;
+
+    }
+
+
+
 }

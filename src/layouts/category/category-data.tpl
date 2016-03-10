@@ -27,8 +27,13 @@
                                 <input type="checkbox" name="data_uri[]" tpl:value="${uri}" />
                             </label>
                         </th>
+                        <th>
+                            <a tpl:href="/data/${uri}"> <tpl:data value="uri" /></a>
+                        </th>
                         <tpl:loop foreach="data">
-                            <td><tpl:data value="$" /> </td>
+                            <td>
+                                <tpl:data value="$" />
+                            </td>
                         </tpl:loop>
                     </tr>
                 </tpl:loop>

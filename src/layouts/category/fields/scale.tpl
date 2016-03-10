@@ -24,8 +24,23 @@
             <div class="panel-body">
                 <div class="form-group row">
                     <div class="col-md-8 prn">
-                        <input type="text" class="form-control" tpl:name="category_form[${order}][scale][question]"
-                               placeholder="Question *" tpl:value="${question}"/>
+                        <input type="text" class="form-control" tpl:name="category_form[${order}][scale][question]"  placeholder="Question *" tpl:value="${question}" />
+                    </div>
+                    <div class="col-md-4">
+                        <select tpl:name="category_form[${order}][scale][authority]" class="form-control native">
+                            <tpl:loop foreach="$.authorities">
+                                <option tpl:value="${authority_id}" tpl:selected="${if://$.authority=authority_id}">
+                                    <tpl:loop limitby="indent">:-- </tpl:loop>
+                                    <span><tpl:data value="authority_title" /></span>
+                                </option>
+                            </tpl:loop>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-8 prn">
+                        <input type="text" class="form-control" tpl:name="category_form[${order}][scale][name]"
+                               placeholder="Unique short name *" tpl:value="${name}"/>
                     </div>
                     <div class="col-md-4">
                         <tpl:select class="form-control native" tpl:name="category_form[${order}][scale][required]"
