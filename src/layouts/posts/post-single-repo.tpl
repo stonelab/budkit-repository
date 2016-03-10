@@ -5,7 +5,11 @@
             <div class="ptm stream-detailed-title">
                 <tpl:link rel="person"  tpl:href="/member/@${reading.media_owner.id}" tpl:src="/file/${reading.media_owner.image.uri}/60x60" class="person img-rounded" />
                 <div class="title-body">
-                    <h1 class="stream-detailed-media-title">2 mini bedrooms in 5 bedroom house offered for 2 months</h1>
+                    <h1 class="stream-detailed-media-title">
+                        <tpl:data value="reading.media_owner.displayName" />
+                        <span class="ionicon ion-minus-round color-concrete mrs mls small"></span>
+                        <span class="color-concrete small"><tpl:data value="reading.object_uri"  /></span>
+                    </h1>
                     <tpl:menu tpl:uid="mediamenu:${reading.object_uri}" class="nav-pills" />
                 </div>
             </div>
