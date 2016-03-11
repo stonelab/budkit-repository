@@ -31,7 +31,7 @@ class Data extends Post {
 
     public function view( $id, $format = 'html')
     {
-       parent::read(null, $id, $format);
+       parent::read($id, $format);
     }
 
     public function canViewAdd($uri, $format=''){
