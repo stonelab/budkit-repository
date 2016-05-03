@@ -74,6 +74,20 @@ class Provider implements Service
             });
         });
 
+        Route::attach('/repository', Controller\Category::class, function ($route) {
+            //The order of the token array should be the
+            //the order of the params loaded;
+            $route->setTokens(array(
+                'repo' => '(\d+[a-zA-Z0-9]{9})?', //category id
+                'id' => '(\d+[a-zA-Z0-9]{9})?', //item id
+                'format' => '(\.[^/]+)?'
+            ));
+            
+            //$route->setAction(Controller\Admin\Settings\Permissions::class);
+            $route->addGet('{/repo}{format}', 'index')->setPermissionHandler("view", "canViewDataCategory");
+
+        });
+
         Route::attach("/data", Controller\Data::class, function ($route) {
 
             //The order of the token array should be the
@@ -95,12 +109,10 @@ class Provider implements Service
                 ->setRequiredPermission("execute")
                 ->setPermissionHandler("execute", "canExecuteCreate");
 
-            $route->attach('/repository', Controller\Category::class, function ($route) {
-                //$route->setAction(Controller\Admin\Settings\Permissions::class);
-                $route->addGet('{/repo}{format}', 'index')->setPermissionHandler("view", "canViewDataCategory");
-
-            });
         });
+
+
+
 
     }
 
@@ -156,7 +168,7 @@ class Provider implements Service
 //        foreach ($menuItems as $id => $menuItem) {
 //            if ($menuItem["menu_url"] == "/admin/settings/configuration") {
                 array_push($menuItems, array(
-                        "menu_title" => "Repository",
+                        "menu_title" => "Repositories",
                         "menu_url" => "/admin/repository",
                     )
                 );

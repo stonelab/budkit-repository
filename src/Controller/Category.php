@@ -150,7 +150,7 @@ class Category extends CMSAdmin
         //print_R($authorities);
 
         //4. Set Properties
-        $this->view->setData("authorities", $authorities->getAuthorities());
+        $this->view->setData("authorities", $authorities->getAuthorities(), true);
 
         $this->view->setData("editing", $editing);
         $this->view->setData("sbstate", "minimized");
@@ -163,7 +163,7 @@ class Category extends CMSAdmin
 
         $this->view->addToBlock("form", 'import://category/category-'.$form );
 
-        $this->prepareLayoutWithTitle("category/category-editor", $category->getPropertyValue("media_title"). " form");
+        $this->prepareLayoutWithTitle("category/category-editor", $category->getPropertyValue("media_title"). "");
 
     }
 
@@ -198,24 +198,24 @@ class Category extends CMSAdmin
 
             $menuItems = array_merge($menuItems, [
                     array(
-                        "menu_title" => "Data",
+                        "menu_title" => "Entity",
+                        "menu_url" => "/admin/repository/{$repoid}/edit",
+                    ),
+                    array(
+                        "menu_title" => "Attributes",
+                        "menu_url" => "/admin/repository/{$repoid}/fields",
+                    ),
+                    array(
+                        "menu_title" => "Values",
                         "menu_url" => "/admin/repository/{$repoid}/data",
                     ),
                     array(
-                        "menu_title" => "Logic",
+                        "menu_title" => "Relations",
                         "menu_url" => "/admin/repository/{$repoid}/logic",
                     ),
                     array(
                         "menu_title" => "Analysis",
                         "menu_url" => "/admin/repository/{$repoid}/analysis",
-                    ),
-                    array(
-                        "menu_title" => "Configure",
-                        "menu_url" => "/admin/repository/{$repoid}/edit",
-                    ),
-                    array(
-                        "menu_title" => "Fields",
-                        "menu_url" => "/admin/repository/{$repoid}/fields",
                     ),
                     array(
                         "menu_title" => "Permissions",
@@ -250,7 +250,7 @@ class Category extends CMSAdmin
 
         //$this->view->addToBlock("form", 'import://category/category-form' );
 
-        $this->prepareLayoutWithTitle("category/category-new", "New category");
+        $this->prepareLayoutWithTitle("category/category-new", "New repository");
 
     }
 
