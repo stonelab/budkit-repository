@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tpl:layout name="category-data" xmlns:tpl="http://budkit.org/tpl">
     <div class="container-overflow">
+
+        <tpl:condition on="categorydata" test="empty" is="1">
+            <div class="container-empty-state">
+                <div class="empty-state">
+                    <img src="/theme/assets/img/placeholders/emptystate.png" />
+                    <h4 class="mtl mbm">Nothing to show</h4>
+                    <p>There is no data in this repository</p>
+                    <a tpl:href="/data/${object_uri}/add" class="btn btn-rounded btn-outlined btn-default">Add Data</a>
+                </div>
+            </div>
+        </tpl:condition>
+        <tpl:condition on="categorydata" test="empty" is="0">
+
         <table class="table table-striped table-bordered-internal table-overflow table-vertical-aligned">
                 <thead>
                 <tr>
@@ -40,6 +53,8 @@
 
                 </tbody>
             </table>
+
+            </tpl:condition>
     </div>
 </tpl:layout>
 

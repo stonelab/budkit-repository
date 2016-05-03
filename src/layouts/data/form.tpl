@@ -9,7 +9,7 @@
 
     <tpl:replace path="//div[@role='main']">
         <div class="container-main">
-            <div class="container-navigation lg">
+            <div class="container-navigation">
                 <tpl:import name="navigation"/>
             </div>
             <div class="container-block" id="budkit-form-holder">

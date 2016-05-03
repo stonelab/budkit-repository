@@ -3,7 +3,7 @@
     <div class="panel panel-field intro mtn">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <span role="button">"Welcome" message</span>
+                <span role="button">Introduction</span>
             </h4>
         </div>
         <div class="panel-collapse collapse in" role="tabpanel" >

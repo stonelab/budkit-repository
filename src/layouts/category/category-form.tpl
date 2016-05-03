@@ -5,13 +5,13 @@
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" name="category_name"
-                       placeholder="Category name" tpl:value="${editing.category_name}" />
+                       placeholder="Repository name" tpl:value="${editing.category_name}" />
                 <span class="help-block">One word titles work best</span>
             </div>
             <div class="form-group">
                 <label>Form title</label>
                 <input type="text" class="form-control" name="media_title"
-                       placeholder="Category form title" tpl:value="${editing.media_title}" />
+                       placeholder="Repository form title" tpl:value="${editing.media_title}" />
                 <span class="help-block">One word titles work best</span>
             </div>
             <div class="form-group">
@@ -69,18 +69,18 @@
                         <span>Steps</span>
                     </a>
                 </div>
-                <span class="help-block">The nature of the progress bar to display with the category form</span>
+                <span class="help-block">The nature of the progress bar to display with the Repository form</span>
             </div>
             <div class="form-group">
                 <label>Icon</label>
                 <input type="text" class="form-control" name="category_icon" tpl:value="${editing.category_icon}"
-                       placeholder="Category Icon"/>
+                       placeholder="Repository Icon"/>
                 <span class="help-block">A unique icon class to describe this category</span>
             </div>
             <div class="form-group">
                 <label>Colour</label>
                 <input type="text" class="form-control" name="category_colour" tpl:value="${editing.category_colour}"
-                       placeholder="Category Colour"/>
+                       placeholder="Repository Colour"/>
                 <span class="help-block">A unique color to define this category</span>
             </div>
             <div class="form-group mtl">

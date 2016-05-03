@@ -7,7 +7,7 @@
                 <div class="row">
                     <div>
                         <tpl:condition on="group" test="equals" is="fields">
-                            <div class="pull-left prn col-md-3">
+                            <div class="pull-left prn col-md-2">
                                 <tpl:import name="category/category-field-types" />
                             </div>
                         </tpl:condition>

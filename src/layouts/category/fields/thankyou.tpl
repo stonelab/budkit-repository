@@ -3,7 +3,7 @@
     <div class="panel panel-field outro">
         <div class="panel-heading" role="tab">
             <h4 class="panel-title">
-                <span role="button">"Thank You" Message</span>
+                <span role="button">Summary</span>
             </h4>
         </div>
         <div class="panel-collapse collapse in" role="tabpanel" >

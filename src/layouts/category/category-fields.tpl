@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tpl:layout name="category-fields" xmlns:tpl="http://budkit.org/tpl">
-    <div class="pull-right pln prn col-md-9">
+    <div class="pull-right pln prn col-md-10">
         <div class="custom-fields-holder">
             <div class="fields-intro">
                 <tpl:import name="category/fields/welcome" />
