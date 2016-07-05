@@ -52,27 +52,27 @@ class Provider implements Service
         //Add Roues
         ////Grouping routes under a prefix;
         //
-        Route::attach("/admin/repository", Controller\Admin::class, function ($route) {
-            $route->setTokens(array(
-                'id' => '(\d+[a-zA-Z0-9]{9})?',
-                'format' => '(\.[^/]+)?',
-                'group'=> '([a-z]+)?'
-
-            ));
-            //subroutes
-            $route->add('{format}', 'index');
-
-            $route->attach('{/id}', Controller\Category::class, function ($route) {
-
-                $route->add('{format}', 'index');
-                $route->add('/add{format}', 'add');
-                $route->add('/edit{format}', "edit");
-                $route->addGet('/{group}{format}', "manage");
-                $route->addDelete('/delete{format}', 'delete');
-                $route->addPatch('/update{format}', 'update');
-
-            });
-        });
+//        Route::attach("/admin/repository", Controller\Admin::class, function ($route) {
+//            $route->setTokens(array(
+//                'id' => '(\d+[a-zA-Z0-9]{9})?',
+//                'format' => '(\.[^/]+)?',
+//                'group'=> '([a-z]+)?'
+//
+//            ));
+//            //subroutes
+//            $route->add('{format}', 'index');
+//
+//            $route->attach('{/id}', Controller\Category::class, function ($route) {
+//
+//                $route->add('{format}', 'index');
+//                $route->add('/add{format}', 'add');
+//                $route->add('/edit{format}', "edit");
+//                $route->addGet('/{group}{format}', "manage");
+//                $route->addDelete('/delete{format}', 'delete');
+//                $route->addPatch('/update{format}', 'update');
+//
+//            });
+//        });
 
         Route::attach('/repository', Controller\Category::class, function ($route) {
             //The order of the token array should be the
@@ -82,9 +82,23 @@ class Provider implements Service
                 'id' => '(\d+[a-zA-Z0-9]{9})?', //item id
                 'format' => '(\.[^/]+)?'
             ));
+
+            $route->add('{format}', 'index')->setPermissionHandler("view", "canViewDataCategory");;
+
+            $route->attach('{/id}', Controller\Category::class, function ($route) {
+
+                $route->add('{format}', 'read')->setPermissionHandler("view", "canViewDataCategory");
+                $route->add('/add{format}', 'add');
+                $route->add('/edit{format}', "edit");
+                $route->addGet('/{group}{format}', "manage");
+                $route->addDelete('/delete{format}', 'delete');
+                $route->addPatch('/update{format}', 'update');
+
+            });
             
             //$route->setAction(Controller\Admin\Settings\Permissions::class);
-            $route->addGet('{/repo}{format}', 'index')->setPermissionHandler("view", "canViewDataCategory");
+//            $route->addGet('{format}', 'index')->setPermissionHandler("view", "canViewDataCategory");
+//            $route->addGet('{/repo}{format}', 'read')->setPermissionHandler("view", "canViewDataCategory");
 
         });
 
@@ -98,8 +112,8 @@ class Provider implements Service
                 'format' => '(\.[^/]+)?'
             ));
             //subroutes
+            //$route->add('/explore{format}', "explore");
             $route->add('/{id}{format}', 'view')->setPermissionHandler("view", "canViewDataItem"); //show a particular listing
-            //$route->add('/{id}/view{format}', "view");
             $route->add('/{id}/edit{format}', "edit");
             $route->add('/{repo}/add{format}', "add")->setPermissionHandler("view", "canViewAdd");
 
@@ -167,11 +181,16 @@ class Provider implements Service
         //$menuUser = $user->getCurrentUser();
 //        foreach ($menuItems as $id => $menuItem) {
 //            if ($menuItem["menu_url"] == "/admin/settings/configuration") {
-                array_push($menuItems, array(
-                        "menu_title" => "Repositories",
-                        "menu_url" => "/admin/repository",
+                array_unshift($menuItems, array(
+                        "menu_title" => "Explore",
+                        "menu_url" => "/repository",
                     )
                 );
+//                array_push($menuItems, array(
+//                        "menu_title" => "Repositories",
+//                        "menu_url" => "/admin/repository",
+//                    )
+//                );
 //                $menuItem['children'] = array_merge($menuItem['children'], [array(
 //                    "menu_title" => "Repository",
 //                    "menu_url" => "/admin/repository",

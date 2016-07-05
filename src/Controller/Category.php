@@ -25,9 +25,9 @@ class Category extends CMSAdmin
     }
 
 
-    public function index($uri = 'html', $format = "")
+    public function index($format = "html")
     {
-        return $this->read($uri, $format);
+        return;
     }
 
 

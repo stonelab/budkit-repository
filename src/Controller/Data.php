@@ -28,6 +28,10 @@ class Data extends Post {
     }
 
 
+    public function explore(){
+        
+    }
+
 
     public function view( $id, $format = 'html')
     {
