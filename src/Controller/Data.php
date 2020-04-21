@@ -116,7 +116,10 @@ class Data extends Post {
                 $this->view->setData("signup_warning", true);
             }
 
-            $this->view->setData("last_step", strval(count($editing["category_form"]) + 1) );
+            //print_r(count((array)$editing["category_form"])); die;
+
+
+            $this->view->setData("last_step", strval(count((array)$editing["category_form"]) + 1) );
             $this->view->setData("category", $editing);
             $this->view->setData("method", "update");
             $this->view->setData("object_uri", $uri);

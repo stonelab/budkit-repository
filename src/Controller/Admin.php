@@ -40,8 +40,8 @@ class Admin extends CMSAdmin
 
         $pagination = $category->getPagination();
 
-        if ($pagination["total"] > 1) {
-            $this->view->setData("pagination", $category->getPagination());
+        if ($pagination) {
+            $this->view->setData("pagination", $pagination);
         }
 
         $this->view->addData("action", ["title" => "Add Category", "link" => "/admin/repository/add", "class" => "btn-primary"]);
