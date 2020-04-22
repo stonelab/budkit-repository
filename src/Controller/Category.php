@@ -63,7 +63,6 @@ class Category extends CMSAdmin
         //$this->view->addData("action", ["title"=>"Add Listing","link"=>"/repository/add", "class"=>"btn-primary"]);
 
         //add the google map script
-        //$this->view->addData("scripts",["src"=>"//maps.googleapis.com/maps/api/js?key=AIzaSyBZrzwMucdDb547ZrUkWrhkIChoNJfAC88&amp;libraries=places"]);
 
         //$this->config->get("setup.database.host");
         //$this->config->get("content.posts.list-length");
